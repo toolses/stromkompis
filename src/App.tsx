@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Calculator, Zap, TrendingDown, TrendingUp, Info, MapPin, RotateCcw, PlusCircle } from 'lucide-react';
 
@@ -15,11 +15,15 @@ interface PriceZones {
 
 interface MonthlyData {
   month: string;
-  consumption: number;
-  spotPrice: number;
+  // Endret til number | '' for å tillate at brukeren visker ut feltet helt
+  consumption: number | ''; 
+  spotPrice: number | '';
 }
 
-interface CalculationResultItem extends MonthlyData {
+interface CalculationResultItem {
+  month: string;
+  consumption: number;
+  spotPrice: number;
   costNorgespris: number;
   costStromstotte: number;
   savings: number;
@@ -34,12 +38,9 @@ interface CalculationSummary {
 
 // --- DATA ---
 
-// Historiske snittpriser for 2025 (øre/kWh) for de ulike sonene
-// Kilder: Klarkraft / Fortum / SSB (Historikk 2025)
 const PRICE_ZONES: PriceZones = {
   NO1: { // Øst
     name: 'NO1 (Østlandet)',
-    // Jan, Feb, Mar, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Des
     prices: [94, 121, 65, 75, 89, 67, 62, 91, 75, 74, 116, 102]
   },
   NO2: { // Sør
@@ -50,7 +51,7 @@ const PRICE_ZONES: PriceZones = {
     name: 'NO3 (Midt-Norge)',
     prices: [35, 43, 25, 21, 16, 16, 9, 10, 22, 36, 68, 73]
   },
-  NO4: { // Nord (Fritatt for MVA i realiteten, men oppgitt her som snittpris)
+  NO4: { // Nord
     name: 'NO4 (Nord-Norge)',
     prices: [11, 8, 6, 2, 8, 4, 3, 3, 5, 5, 36, 32]
   },
@@ -62,23 +63,23 @@ const PRICE_ZONES: PriceZones = {
 
 const MONTHS: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des'];
 
-// Standard forbruksprofil (ca 16 000 kWh/år)
 const DEFAULT_CONSUMPTION: number[] = [2200, 1900, 1600, 1100, 800, 500, 400, 450, 700, 1000, 1500, 2000];
 
 const App: React.FC = () => {
-  // Konstanter definert i oppgaven
   const NORGESPRIS_ORE = 50; 
   const STROMSTOTTE_TAK_ORE = 96.25;
 
   // --- STATE ---
   const [selectedZone, setSelectedZone] = useState<string>('NO3');
-  const [surcharge, setSurcharge] = useState<number>(0); // Ny state for påslag
+  const [surcharge, setSurcharge] = useState<number | ''>(0); 
   const [data, setData] = useState<MonthlyData[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false); 
+  
+  // Refs for å håndtere fokus-bytte på Enter
+  const consumptionRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // --- INITIALISERING / LOCALSTORAGE ---
 
-  // 1. Last data fra LocalStorage ved oppstart
   useEffect(() => {
     const savedData = localStorage.getItem('stromkompis_data_2025');
     const savedZone = localStorage.getItem('stromkompis_zone_2025');
@@ -87,15 +88,13 @@ const App: React.FC = () => {
     if (savedData && savedZone) {
       setData(JSON.parse(savedData));
       setSelectedZone(savedZone);
-      if (savedSurcharge) setSurcharge(Number(savedSurcharge));
+      if (savedSurcharge) setSurcharge(savedSurcharge === '' ? '' : Number(savedSurcharge));
     } else {
-      // Hvis ingen data finnes, generer standard for NO3 med 0 i påslag
       generateDataForZone('NO3', false, 0);
     }
     setIsLoaded(true);
   }, []);
 
-  // 2. Lagre til LocalStorage hver gang data eller instillinger endres
   useEffect(() => {
     if (isLoaded && data.length > 0) {
       localStorage.setItem('stromkompis_data_2025', JSON.stringify(data));
@@ -104,12 +103,10 @@ const App: React.FC = () => {
     }
   }, [data, selectedZone, surcharge, isLoaded]);
 
-  // Hjelpefunksjon for å generere/oppdatere data
-  // Tar imot surchargeValue eksplisitt for å sikre at vi bruker nyeste verdi ved endring
-  const generateDataForZone = (zoneKey: string, keepConsumption: boolean = false, surchargeValue: number = 0) => {
+  const generateDataForZone = (zoneKey: string, keepConsumption: boolean = false, surchargeValue: number | '' = 0) => {
     const zonePrices = PRICE_ZONES[zoneKey].prices;
+    const surchargeNum = Number(surchargeValue);
     
-    // Hvis vi skal beholde forbruk, bruker vi eksisterende state, ellers default
     const currentConsumption = keepConsumption && data.length > 0 
       ? data.map(d => d.consumption) 
       : DEFAULT_CONSUMPTION;
@@ -117,8 +114,7 @@ const App: React.FC = () => {
     const newData: MonthlyData[] = MONTHS.map((month, index) => ({
       month: month,
       consumption: currentConsumption[index],
-      // Her legger vi til påslaget på grunnprisen for sonen
-      spotPrice: zonePrices[index] + Number(surchargeValue)
+      spotPrice: zonePrices[index] + surchargeNum
     }));
 
     setData(newData);
@@ -130,21 +126,33 @@ const App: React.FC = () => {
 
   const handleZoneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newZone = e.target.value;
-    // Når sone endres: Behold brukerens inntastede forbruk og påslag
     generateDataForZone(newZone, true, surcharge);
   };
 
   const handleSurchargeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = Number(e.target.value);
-    // Oppdaterer tabellen basert på valgt sone og nytt påslag
+    const val = e.target.value === '' ? '' : Number(e.target.value);
     generateDataForZone(selectedZone, true, val);
   };
 
-  const handleInputChange = (index: number, field: keyof MonthlyData, value: string | number) => {
+  const handleInputChange = (index: number, field: keyof MonthlyData, value: string) => {
     const newData = [...data];
-    // @ts-ignore - Vi vet at field er en gyldig nøkkel og value konverteres
-    newData[index][field] = Number(value);
+    // Tillater tom streng, ellers konverter til tall
+    const numericValue = value === '' ? '' : Number(value);
+    
+    // @ts-ignore
+    newData[index][field] = numericValue;
     setData(newData);
+  };
+
+  // Håndterer Enter-tastetrykk for navigasjon
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Hindre default form submit om det finnes
+      // Sjekk om det finnes et neste felt
+      if (index + 1 < consumptionRefs.current.length) {
+        consumptionRefs.current[index + 1]?.focus();
+      }
+    }
   };
 
   const handleReset = () => {
@@ -162,17 +170,19 @@ const App: React.FC = () => {
     let totalCostStromstotte = 0;
 
     const monthlyResults = data.map((item) => {
-      // 1. Norgespris (Fast 50 øre)
-      const costNorgespris = (item.consumption * NORGESPRIS_ORE) / 100;
+      // Sikre at vi bruker 0 i beregninger hvis feltet er tomt
+      const consumption = Number(item.consumption);
+      const spotPrice = Number(item.spotPrice);
 
-      // 2. Strømstøtte (Tak på 96,25 øre)
-      // NB: Strømstøtten beregnes normalt av ren spotpris. 
-      // Her bruker vi tabellens "Spotpris" (som nå inkluderer brukerens påslag) som grunnlag.
-      let effectivePriceOre = item.spotPrice;
-      if (item.spotPrice > STROMSTOTTE_TAK_ORE) {
+      // 1. Norgespris
+      const costNorgespris = (consumption * NORGESPRIS_ORE) / 100;
+
+      // 2. Strømstøtte
+      let effectivePriceOre = spotPrice;
+      if (spotPrice > STROMSTOTTE_TAK_ORE) {
         effectivePriceOre = STROMSTOTTE_TAK_ORE;
       }
-      const costStromstotte = (item.consumption * effectivePriceOre) / 100;
+      const costStromstotte = (consumption * effectivePriceOre) / 100;
 
       const savings = costStromstotte - costNorgespris;
 
@@ -180,7 +190,9 @@ const App: React.FC = () => {
       totalCostStromstotte += costStromstotte;
 
       return {
-        ...item,
+        month: item.month,
+        consumption,
+        spotPrice,
         costNorgespris,
         costStromstotte,
         savings
@@ -195,7 +207,7 @@ const App: React.FC = () => {
     };
   }, [data]);
 
-  if (!isLoaded) return null; // Vent til data er lastet
+  if (!isLoaded) return null;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans p-4 md:p-8">
@@ -263,7 +275,8 @@ const App: React.FC = () => {
                 <Calculator className="w-5 h-5" /> Månedlige tall
               </h2>
               <p className="text-sm text-slate-500 mt-1">
-                Spotprisene inkluderer nå påslaget ditt ({surcharge} øre). Du kan fortsatt endre enkeltmåneder manuelt.
+                Spotprisene inkluderer nå påslaget ditt ({surcharge} øre).
+                Trykk <strong>Enter</strong> for å hoppe til neste måned.
               </p>
             </div>
             <div className="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 flex items-center gap-1">
@@ -286,11 +299,15 @@ const App: React.FC = () => {
                     <td className="px-4 py-3 font-medium bg-slate-50 group-hover:bg-slate-100 w-24">{row.month}</td>
                     <td className="px-4 py-2">
                       <input
+                        // Lagrer referansen til input-feltet
+                        ref={(el) => { consumptionRefs.current[index] = el; }}
                         type="number"
                         min="0"
                         className="w-full max-w-[120px] px-3 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
                         value={row.consumption}
                         onChange={(e) => handleInputChange(index, 'consumption', e.target.value)}
+                        // Lytter etter Enter-tasten
+                        onKeyDown={(e) => handleKeyDown(e, index)}
                       />
                     </td>
                     <td className="px-4 py-2">
@@ -298,11 +315,11 @@ const App: React.FC = () => {
                         type="number"
                         min="0"
                         className={`w-full max-w-[120px] px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ${
-                          row.spotPrice !== (PRICE_ZONES[selectedZone].prices[index] + surcharge) 
+                          row.spotPrice !== (PRICE_ZONES[selectedZone].prices[index] + Number(surcharge)) 
                             ? 'bg-yellow-50 border-yellow-300' 
                             : 'bg-white border-slate-300'
                         }`}
-                        title={row.spotPrice !== (PRICE_ZONES[selectedZone].prices[index] + surcharge) ? "Denne måneden er manuelt endret" : ""}
+                        title={row.spotPrice !== (PRICE_ZONES[selectedZone].prices[index] + Number(surcharge)) ? "Denne måneden er manuelt endret" : ""}
                         value={row.spotPrice}
                         onChange={(e) => handleInputChange(index, 'spotPrice', e.target.value)}
                       />
