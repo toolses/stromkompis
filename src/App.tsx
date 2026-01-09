@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { Calculator, Zap, TrendingDown, TrendingUp, Info, MapPin, RotateCcw, PlusCircle, Settings, X } from 'lucide-react';
+import { Calculator, Zap, TrendingDown, TrendingUp, Info, MapPin, PlusCircle, Settings, X } from 'lucide-react';
 import { HISTORICAL_RATES_2025, HISTORICAL_RATES_2026, type MonthlyRate } from './historicalRates';
 
 // --- TYPER ---
@@ -8,7 +8,7 @@ import { HISTORICAL_RATES_2025, HISTORICAL_RATES_2026, type MonthlyRate } from '
 interface MonthlyData {
   month: string;
   consumption: number | ''; 
-  surcharge: number | ''; 
+  marketAdjustment: number | ''; 
 }
 
 interface CalculationResultItem {
@@ -16,7 +16,8 @@ interface CalculationResultItem {
   consumption: number;
   spotAvg: number;
   subsidyAvg: number;
-  userSurcharge: number;
+  marketAdjustment: number;
+  newSubsidy: number;
   costNorgespris: number;
   costStromstotte: number;
   savings: number;
@@ -26,6 +27,7 @@ interface CalculationSummary {
   monthly: CalculationResultItem[];
   totalNorgespris: number;
   totalStromstotte: number;
+  totalSubsidy: number;
   totalDifference: number;
 }
 
@@ -58,9 +60,22 @@ const MONTH_NAMES: Record<string, string> = {
 
 const DEFAULT_CONSUMPTION: number[] = [1781, 1502, 1452, 1110, 1294, 948, 1024, 1118, 1138, 1415, 1609, 1801];
 
+// Helper function to get subsidy threshold based on zone
+const getSubsidyThreshold = (zone: string): number => {
+  // Base threshold for 2026: 77 øre/kWh excl. VAT
+  // NO4 is VAT-exempt, others have 25% VAT
+  return zone === 'NO4' ? 77 : 96.25; // 77 * 1.25 = 96.25
+};
+
+// Calculate theoretical subsidy for a given spot price
+const calculateTheoreticalSubsidy = (spotPrice: number, zone: string): number => {
+  const threshold = getSubsidyThreshold(zone);
+  // Subsidy = 90% of amount above threshold
+  return Math.max(0, (spotPrice - threshold) * 0.90);
+};
+
 const App: React.FC = () => {
   const NORGESPRIS_ORE = 50; 
-  const STROMSTOTTE_TAK_ORE = 96.25; 
   
   // --- STATE ---
   const [selectedZone, setSelectedZone] = useState<string>(() => {
@@ -68,7 +83,12 @@ const App: React.FC = () => {
     return savedZone || 'NO3';
   });
   
-  const [globalSurcharge, setGlobalSurcharge] = useState<number | ''>(() => {
+  const [globalMarketAdjustment, setGlobalMarketAdjustment] = useState<number | ''>(() => {
+    const savedGlobalMarketAdjustment = localStorage.getItem('stromkompis_global_market_adjustment_v3');
+    if (savedGlobalMarketAdjustment) {
+      return savedGlobalMarketAdjustment === '' ? '' : Number(savedGlobalMarketAdjustment);
+    }
+    // Try to migrate from old key
     const savedGlobalSurcharge = localStorage.getItem('stromkompis_global_surcharge_v3');
     if (savedGlobalSurcharge) {
       return savedGlobalSurcharge === '' ? '' : Number(savedGlobalSurcharge);
@@ -92,23 +112,42 @@ const App: React.FC = () => {
       }
     }
 
-    // 2. Hent påslag
-    const savedGlobalSurcharge = localStorage.getItem('stromkompis_global_surcharge_v3');
-    let loadedGlobalSurcharge: number | '' = 0;
-    if (savedGlobalSurcharge) {
-      loadedGlobalSurcharge = savedGlobalSurcharge === '' ? '' : Number(savedGlobalSurcharge);
+    // 2. Hent markedsjustering
+    const savedGlobalMarketAdjustment = localStorage.getItem('stromkompis_global_market_adjustment_v3');
+    let loadedGlobalMarketAdjustment: number | '' = 0;
+    if (savedGlobalMarketAdjustment) {
+      loadedGlobalMarketAdjustment = savedGlobalMarketAdjustment === '' ? '' : Number(savedGlobalMarketAdjustment);
+    } else {
+      // Try to migrate from old key
+      const savedGlobalSurcharge = localStorage.getItem('stromkompis_global_surcharge_v3');
+      if (savedGlobalSurcharge) {
+        loadedGlobalMarketAdjustment = savedGlobalSurcharge === '' ? '' : Number(savedGlobalSurcharge);
+      }
     }
 
-    const savedSurchargesStr = localStorage.getItem('stromkompis_surcharges_v3');
-    let loadedSurcharges: (number | '')[] = new Array(12).fill(loadedGlobalSurcharge);
-    if (savedSurchargesStr) {
+    const savedMarketAdjustmentsStr = localStorage.getItem('stromkompis_market_adjustments_v3');
+    let loadedMarketAdjustments: (number | '')[] = new Array(12).fill(loadedGlobalMarketAdjustment);
+    if (savedMarketAdjustmentsStr) {
       try {
-        const parsed = JSON.parse(savedSurchargesStr);
+        const parsed = JSON.parse(savedMarketAdjustmentsStr);
         if (Array.isArray(parsed) && parsed.length === 12) {
-          loadedSurcharges = parsed;
+          loadedMarketAdjustments = parsed;
         }
       } catch (e) {
-        console.warn("Kunne ikke lese lagrede påslag", e);
+        console.warn("Kunne ikke lese lagrede markedsjusteringer", e);
+      }
+    } else {
+      // Try to migrate from old key
+      const savedSurchargesStr = localStorage.getItem('stromkompis_surcharges_v3');
+      if (savedSurchargesStr) {
+        try {
+          const parsed = JSON.parse(savedSurchargesStr);
+          if (Array.isArray(parsed) && parsed.length === 12) {
+            loadedMarketAdjustments = parsed;
+          }
+        } catch (e) {
+          console.warn("Kunne ikke lese lagrede markedsjusteringer fra gammel nøkkel", e);
+        }
       }
     }
 
@@ -116,7 +155,7 @@ const App: React.FC = () => {
     return MONTHS.map((month, index) => ({
       month: month,
       consumption: loadedConsumption[index],
-      surcharge: loadedSurcharges[index]
+      marketAdjustment: loadedMarketAdjustments[index]
     }));
   });
   
@@ -138,14 +177,14 @@ const App: React.FC = () => {
       const consumptions = data.map(d => d.consumption);
       localStorage.setItem('stromkompis_consumption', JSON.stringify(consumptions));
 
-      // Lagre påslag og innstillinger
-      const surcharges = data.map(d => d.surcharge);
-      localStorage.setItem('stromkompis_surcharges_v3', JSON.stringify(surcharges));
+      // Lagre markedsjustering og innstillinger
+      const marketAdjustments = data.map(d => d.marketAdjustment);
+      localStorage.setItem('stromkompis_market_adjustments_v3', JSON.stringify(marketAdjustments));
       localStorage.setItem('stromkompis_zone_v3', selectedZone);
-      localStorage.setItem('stromkompis_global_surcharge_v3', globalSurcharge.toString());
+      localStorage.setItem('stromkompis_global_market_adjustment_v3', globalMarketAdjustment.toString());
       localStorage.setItem('stromkompis_prefer_2026', prefer2026.toString());
     }
-  }, [data, selectedZone, globalSurcharge, prefer2026, isLoaded]);
+  }, [data, selectedZone, globalMarketAdjustment, prefer2026, isLoaded]);
 
   // --- HANDLERS ---
 
@@ -156,15 +195,15 @@ const App: React.FC = () => {
     // da vi skiller data (input) fra modell (historicalRates)
   };
 
-  const handleGlobalSurchargeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGlobalMarketAdjustmentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const val: number | '' = inputValue === '' ? '' : (isNaN(Number(inputValue)) ? '' : Number(inputValue));
-    setGlobalSurcharge(val);
+    setGlobalMarketAdjustment(val);
     
-    // Overskriv alle måneder med nytt globalt påslag
+    // Overskriv alle måneder med nytt global markedsjustering
     const newData: MonthlyData[] = data.map(d => ({
       ...d,
-      surcharge: val
+      marketAdjustment: val
     }));
     setData(newData);
   };
@@ -173,7 +212,7 @@ const App: React.FC = () => {
     const newData = [...data];
     const numericValue: number | '' = value === '' ? '' : (isNaN(Number(value)) ? '' : Number(value));
     
-    if (field === 'consumption' || field === 'surcharge') {
+    if (field === 'consumption' || field === 'marketAdjustment') {
       newData[index][field] = numericValue;
     }
     setData(newData);
@@ -188,27 +227,6 @@ const App: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
-    if (window.confirm("Dette vil nullstille alle tall, inkludert forbruk. Er du sikker?")) {
-      localStorage.removeItem('stromkompis_consumption'); // Sletter også forbruk
-      localStorage.removeItem('stromkompis_data_v2'); // Rensk opp gamle versjoner
-      localStorage.removeItem('stromkompis_zone_v3');
-      localStorage.removeItem('stromkompis_global_surcharge_v3');
-      localStorage.removeItem('stromkompis_surcharges_v3');
-      localStorage.removeItem('stromkompis_prefer_2026');
-      
-      // Resett til defaults
-      const newData: MonthlyData[] = MONTHS.map((month, index) => ({
-        month: month,
-        consumption: DEFAULT_CONSUMPTION[index],
-        surcharge: 0
-      }));
-      setData(newData);
-      setSelectedZone('NO3');
-      setGlobalSurcharge(0);
-      setPrefer2026(false);
-    }
-  };
 
   // Helper function to get historical rate with fallback logic
   const getHistoricalRate = useCallback((zone: string, month: string): MonthlyRate => {
@@ -261,7 +279,7 @@ const App: React.FC = () => {
   const results: CalculationSummary = useMemo(() => {
     const monthlyResults = data.map((item) => {
       const consumption = Number(item.consumption);
-      const userSurcharge = Number(item.surcharge);
+      const marketAdjustment = Number(item.marketAdjustment);
       
       // Hent historiske data med fallback-logikk
       const historicalData = getHistoricalRate(selectedZone, item.month);
@@ -270,8 +288,19 @@ const App: React.FC = () => {
       // 1. Norgespris (50 øre fast)
       const costNorgespris = (consumption * NORGESPRIS_ORE) / 100;
 
-      // 2. Strømstøtte-scenario
-      const effectivePricePerKwh = (spotAvg + userSurcharge) - subsidyAvg;
+      // 2. Strømstøtte-scenario med hybrid modell
+      // Calculate new spot price with market adjustment
+      const nySpot = spotAvg + marketAdjustment;
+      
+      // Calculate theoretical subsidies
+      const theoreticalSubsidyHistorisk = calculateTheoreticalSubsidy(spotAvg, selectedZone);
+      const theoreticalSubsidyNy = calculateTheoreticalSubsidy(nySpot, selectedZone);
+      
+      // Hybrid model: adjust actual subsidy by the difference in theoretical subsidies
+      const newSubsidy = subsidyAvg + (theoreticalSubsidyNy - theoreticalSubsidyHistorisk);
+      
+      // Final effective price
+      const effectivePricePerKwh = nySpot - newSubsidy;
       const costStromstotte = (consumption * effectivePricePerKwh) / 100;
 
       const savings = costStromstotte - costNorgespris;
@@ -281,7 +310,8 @@ const App: React.FC = () => {
         consumption,
         spotAvg,
         subsidyAvg,
-        userSurcharge,
+        marketAdjustment,
+        newSubsidy,
         costNorgespris,
         costStromstotte,
         savings
@@ -292,14 +322,16 @@ const App: React.FC = () => {
       (acc, item) => ({
         totalNorgespris: acc.totalNorgespris + item.costNorgespris,
         totalStromstotte: acc.totalStromstotte + item.costStromstotte,
+        totalSubsidy: acc.totalSubsidy + (item.newSubsidy * item.consumption / 100),
       }),
-      { totalNorgespris: 0, totalStromstotte: 0 }
+      { totalNorgespris: 0, totalStromstotte: 0, totalSubsidy: 0 }
     );
 
     return {
       monthly: monthlyResults,
       totalNorgespris: totals.totalNorgespris,
       totalStromstotte: totals.totalStromstotte,
+      totalSubsidy: totals.totalSubsidy,
       totalDifference: totals.totalStromstotte - totals.totalNorgespris
     };
   }, [data, selectedZone, getHistoricalRate]);
@@ -312,17 +344,24 @@ const App: React.FC = () => {
         
         {/* Header */}
         <header className="flex flex-col lg:flex-row justify-between items-center gap-6 border-b border-slate-200 pb-6">
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left w-full lg:w-auto">
             <div className="flex justify-center lg:justify-start items-center gap-3 text-blue-600 mb-2">
               <Zap size={32} fill="currentColor" />
               <h1 className="text-3xl font-bold tracking-tight">Strømkompis</h1>
+              <button 
+                onClick={() => setShowSettings(true)}
+                className="ml-auto lg:ml-2 text-slate-400 hover:text-blue-500 p-2 rounded-full hover:bg-slate-50 transition-colors"
+                title="Innstillinger"
+              >
+                <Settings size={20} />
+              </button>
             </div>
             <p className="text-slate-500">
               Sammenlign "Strømstøtte" mot "Norgespris"
             </p>          
           </div>
 
-          <div className="flex flex-wrap justify-center items-end gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+          <div className="flex flex-wrap justify-center items-end gap-4 bg-white p-4 rounded-lg shadow-sm border border-slate-200 w-full lg:w-auto">
              
              {/* Sonevelger */}
              <div className="flex flex-col">
@@ -340,35 +379,18 @@ const App: React.FC = () => {
                 </select>
              </div>
 
-             {/* Påslag input */}
+             {/* Markedsjustering input */}
              <div className="flex flex-col">
                 <label className="text-xs text-slate-400 font-semibold uppercase mb-1 flex items-center gap-1">
-                  <PlusCircle size={12} /> Globalt Påslag
+                  <PlusCircle size={12} /> Global Markedsjustering
                 </label>
                 <input 
                   type="number"
-                  value={globalSurcharge}
-                  onChange={handleGlobalSurchargeChange}
-                  className="bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-24 p-2"
+                  value={globalMarketAdjustment}
+                  onChange={handleGlobalMarketAdjustmentChange}
+                  className="bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full min-w-[180px] p-2"
                   placeholder="0"
                 />
-             </div>
-
-             <div className="border-l border-slate-200 pl-4 ml-2 h-10 flex items-center gap-2">
-               <button 
-                  onClick={() => setShowSettings(true)}
-                  className="text-slate-400 hover:text-blue-500 p-2 rounded-full hover:bg-slate-50 transition-colors"
-                  title="Innstillinger"
-                >
-                  <Settings size={20} />
-               </button>
-               <button 
-                  onClick={handleReset}
-                  className="hidden text-slate-400 hover:text-red-500 p-2 rounded-full hover:bg-slate-50 transition-colors"
-                  title="Tilbakestill alt"
-                >
-                  <RotateCcw size={20} />
-               </button>
              </div>
           </div>
         </header>
@@ -401,7 +423,7 @@ const App: React.FC = () => {
                   <th className="px-4 py-3">Forbruk (kWh)</th>
                   <th className="px-4 py-3 text-slate-400 font-normal">Snitt Spot</th>
                   <th className="px-4 py-3 text-slate-400 font-normal">Snitt Støtte</th>
-                  <th className="px-4 py-3">Påslag</th>
+                  <th className="px-4 py-3">Markedsjustering</th>
                 </tr>
               </thead>
               <tbody>
@@ -430,18 +452,18 @@ const App: React.FC = () => {
                       -{row.subsidyAvg.toFixed(2)}
                     </td>
 
-                    {/* Påslag Input */}
+                    {/* Markedsjustering Input */}
                     <td className="px-4 py-2">
                       <input
                         type="number"
                         className={`w-full max-w-[100px] px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ${
-                          data[index].surcharge !== globalSurcharge 
+                          data[index].marketAdjustment !== globalMarketAdjustment 
                             ? 'bg-yellow-50 border-yellow-300' 
                             : 'bg-white border-slate-300'
                         }`}
-                        title={data[index].surcharge !== globalSurcharge ? "Manuelt endret fra globalt påslag" : "Følger globalt påslag"}
-                        value={data[index].surcharge}
-                        onChange={(e) => handleInputChange(index, 'surcharge', e.target.value)}
+                        title={data[index].marketAdjustment !== globalMarketAdjustment ? "Manuelt endret fra global markedsjustering" : "Følger global markedsjustering"}
+                        value={data[index].marketAdjustment}
+                        onChange={(e) => handleInputChange(index, 'marketAdjustment', e.target.value)}
                       />
                     </td>
                   </tr>
@@ -456,10 +478,11 @@ const App: React.FC = () => {
           <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between">
             <div>
               <h3 className="text-slate-500 font-medium mb-1">Dagens ordning (Strømstøtte)</h3>
-              <p className="text-xs text-slate-400 mb-4">Spot + Påslag - Støtte (Tak: {STROMSTOTTE_TAK_ORE} øre/kWh)</p>
+              <p className="text-xs text-slate-400 mb-4">Spot + Markedsjustering - Støtte (Tak: {getSubsidyThreshold(selectedZone)} øre/kWh)</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-slate-800">{Math.round(results.totalStromstotte).toLocaleString()} kr</p>
+              <p className="text-sm text-green-600 mt-2">Strømstøtte: {Math.round(results.totalSubsidy).toLocaleString()} kr</p>
             </div>
           </div>
 
