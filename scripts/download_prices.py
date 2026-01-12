@@ -15,7 +15,10 @@ ZONES = ["NO1", "NO2", "NO3", "NO4", "NO5"]
 BASE_URL = "https://www.hvakosterstrommen.no/api/v1/prices"
 
 # Vi lagrer data i en mappe 'data_cache' i roten for å holde det ryddig
-BASE_DIR = "data_cache"
+# Finn prosjektroten basert på hvor scriptet ligger (scripts/download_prices.py -> prosjektrot)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)  # Gå opp ett nivå fra scripts/ til prosjektrot
+BASE_DIR = os.path.join(PROJECT_ROOT, "data_cache")
 
 # Innstillinger for retry/feilhåndtering
 MAX_RETRIES = 5
