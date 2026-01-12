@@ -293,3 +293,5 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
 };
 
 export const AVAILABLE_YEARS = [2025, 2026];
+
+export const LATEST_TIMESTAMP = "2026-01-10T00:00:00+01:00";

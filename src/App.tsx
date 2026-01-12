@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Calculator, Zap, TrendingDown, TrendingUp, Info, MapPin, PlusCircle, Settings, X } from 'lucide-react';
-import { HISTORICAL_RATES_2025, HISTORICAL_RATES_2026, type MonthlyRate } from './historicalRates';
+import { HISTORICAL_RATES_2025, HISTORICAL_RATES_2026, LATEST_TIMESTAMP, type MonthlyRate } from './historicalRates';
 
 // --- TYPER ---
 
@@ -274,6 +274,21 @@ const App: React.FC = () => {
     const monthNamesText = monthNames2026.join(', ');
     return `For ${monthNamesText} brukes 2026-tall, resten bruker 2025-tall`;
   }, [prefer2026, selectedZone, get2026Months]);
+
+  // Helper function to format LATEST_TIMESTAMP for display
+  const formatLatestTimestamp = useCallback((): string => {
+    try {
+      const date = new Date(LATEST_TIMESTAMP);
+      const day = date.getDate();
+      const month = MONTH_NAMES[MONTHS[date.getMonth()]] || date.toLocaleDateString('nb-NO', { month: 'long' });
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${day}. ${month} ${year} kl. ${hours}:${minutes}`;
+    } catch {
+      return LATEST_TIMESTAMP;
+    }
+  }, []);
 
   // --- KALKULERINGER ---
   const results: CalculationSummary = useMemo(() => {
@@ -597,9 +612,14 @@ const App: React.FC = () => {
                       <div className="text-sm text-slate-500">
                         Når aktivert, brukes 2026-data for måneder hvor det finnes, ellers falles det tilbake til 2025-data.
                         {prefer2026 && (
-                          <span className="block mt-1 text-blue-600">
-                            Aktuelt: {getYearUsageText()}.
-                          </span>
+                          <>
+                            <span className="block mt-1 text-blue-600">
+                              Aktuelt: {getYearUsageText()}.
+                            </span>
+                            <span className="block mt-1 text-slate-400 text-xs">
+                              Data hentet frem til {formatLatestTimestamp()}.
+                            </span>
+                          </>
                         )}
                       </div>
                     </div>
