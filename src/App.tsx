@@ -1,7 +1,32 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Calculator, Zap, TrendingDown, TrendingUp, Info, MapPin, PlusCircle, Settings, X } from 'lucide-react';
-import { HISTORICAL_RATES_2025, HISTORICAL_RATES_2026, type MonthlyRate } from './historicalRates';
+import { AVAILABLE_YEARS, LATEST_TIMESTAMP, type MonthlyRate } from './historicalRates';
+// Import individual year rates for backward compatibility and fallback
+import * as historicalRatesModule from './historicalRates';
+
+type HistoricalRatesByYear = Record<number, Record<string, Record<string, MonthlyRate>>>;
+
+// Create HISTORICAL_RATES_BY_YEAR from available exports or use fallback
+const getHistoricalRatesByYear = (): HistoricalRatesByYear => {
+  // Check if HISTORICAL_RATES_BY_YEAR is exported (new format)
+  if ('HISTORICAL_RATES_BY_YEAR' in historicalRatesModule) {
+    return (historicalRatesModule as typeof historicalRatesModule & { HISTORICAL_RATES_BY_YEAR: HistoricalRatesByYear }).HISTORICAL_RATES_BY_YEAR;
+  }
+  
+  // Fallback: Build from individual year exports (old format)
+  const ratesByYear: HistoricalRatesByYear = {};
+  for (const year of AVAILABLE_YEARS) {
+    const yearKey = `HISTORICAL_RATES_${year}` as keyof typeof historicalRatesModule;
+    const yearData = historicalRatesModule[yearKey];
+    if (yearData && typeof yearData === 'object') {
+      ratesByYear[year] = yearData as Record<string, Record<string, MonthlyRate>>;
+    }
+  }
+  return ratesByYear;
+};
+
+const HISTORICAL_RATES_BY_YEAR = getHistoricalRatesByYear();
 
 // --- TYPER ---
 
@@ -161,9 +186,21 @@ const App: React.FC = () => {
   
   const [isLoaded] = useState<boolean>(true);
   
-  const [prefer2026, setPrefer2026] = useState<boolean>(() => {
-    const saved = localStorage.getItem('stromkompis_prefer_2026');
-    return saved !== null ? saved === 'true' : true;
+  const [selectedYear, setSelectedYear] = useState<number>(() => {
+    const saved = localStorage.getItem('stromkompis_selected_year');
+    if (saved) {
+      const year = Number(saved);
+      if (AVAILABLE_YEARS.includes(year)) {
+        return year;
+      }
+    }
+    // Migrer fra gammel prefer2026 nøkkel
+    const oldPrefer2026 = localStorage.getItem('stromkompis_prefer_2026');
+    if (oldPrefer2026 === 'true' && AVAILABLE_YEARS.includes(2026)) {
+      return 2026;
+    }
+    // Default til det høyeste tilgjengelige året
+    return AVAILABLE_YEARS.length > 0 ? Math.max(...AVAILABLE_YEARS) : 2025;
   });
   
   const [showSettings, setShowSettings] = useState<boolean>(false);
@@ -182,9 +219,9 @@ const App: React.FC = () => {
       localStorage.setItem('stromkompis_market_adjustments_v3', JSON.stringify(marketAdjustments));
       localStorage.setItem('stromkompis_zone_v3', selectedZone);
       localStorage.setItem('stromkompis_global_market_adjustment_v3', globalMarketAdjustment.toString());
-      localStorage.setItem('stromkompis_prefer_2026', prefer2026.toString());
+      localStorage.setItem('stromkompis_selected_year', selectedYear.toString());
     }
-  }, [data, selectedZone, globalMarketAdjustment, prefer2026, isLoaded]);
+  }, [data, selectedZone, globalMarketAdjustment, selectedYear, isLoaded]);
 
   // --- HANDLERS ---
 
@@ -230,50 +267,127 @@ const App: React.FC = () => {
 
   // Helper function to get historical rate with fallback logic
   const getHistoricalRate = useCallback((zone: string, month: string): MonthlyRate => {
-    // If prefer2026 is enabled, try 2026 first, then fall back to 2025
-    if (prefer2026) {
-      const rate2026 = HISTORICAL_RATES_2026[zone]?.[month];
-      if (rate2026) {
-        return rate2026;
+    // Prøv først valgt år
+    const selectedYearData = HISTORICAL_RATES_BY_YEAR[selectedYear];
+    if (selectedYearData?.[zone]?.[month]) {
+      return selectedYearData[zone][month];
+    }
+    
+    // Hvis valgt år er inneværende år og data mangler, fall tilbake til forrige år
+    const currentYear = new Date().getFullYear();
+    if (selectedYear === currentYear) {
+      // Finn forrige tilgjengelige år
+      const previousYears = AVAILABLE_YEARS.filter(y => y < selectedYear).sort((a, b) => b - a);
+      for (const prevYear of previousYears) {
+        const prevYearData = HISTORICAL_RATES_BY_YEAR[prevYear];
+        if (prevYearData?.[zone]?.[month]) {
+          return prevYearData[zone][month];
+        }
       }
     }
-    // Default to 2025 (or fallback from 2026)
-    return HISTORICAL_RATES_2025[zone]?.[month] || { spotAvg: 0, subsidyAvg: 0 };
-  }, [prefer2026]);
+    
+    // Fallback til tom data hvis ingenting funnet
+    return { spotAvg: 0, subsidyAvg: 0 };
+  }, [selectedYear]);
 
-  // Helper function to get months that use 2026 data
-  const get2026Months = useCallback((zone: string): string[] => {
-    const months2026 = HISTORICAL_RATES_2026[zone];
-    if (!months2026) return [];
-    return Object.keys(months2026);
+  // Helper function to get months that use selected year data
+  const getSelectedYearMonths = useCallback((zone: string, year: number): string[] => {
+    const yearData = HISTORICAL_RATES_BY_YEAR[year];
+    if (!yearData?.[zone]) return [];
+    return Object.keys(yearData[zone]);
+  }, []);
+
+  // Helper function to get months that use fallback year data
+  const getFallbackYearMonths = useCallback((zone: string, currentSelectedYear: number): string[] => {
+    const currentYear = new Date().getFullYear();
+    if (currentSelectedYear !== currentYear) return [];
+    
+    const previousYears = AVAILABLE_YEARS.filter(y => y < currentSelectedYear).sort((a, b) => b - a);
+    if (previousYears.length === 0) return [];
+    
+    const selectedYearMonths = getSelectedYearMonths(zone, currentSelectedYear);
+    const allMonths = new Set(MONTHS);
+    selectedYearMonths.forEach(m => allMonths.delete(m));
+    
+    return Array.from(allMonths);
+  }, [getSelectedYearMonths]);
+
+  // Helper function to check if selected year is current year
+  const isCurrentYear = useCallback((year: number): boolean => {
+    return year === new Date().getFullYear();
+  }, []);
+
+  // Helper function to check if selected year data is complete
+  const isYearDataComplete = useCallback((zone: string, year: number): boolean => {
+    const yearData = HISTORICAL_RATES_BY_YEAR[year];
+    if (!yearData?.[zone]) return false;
+    return Object.keys(yearData[zone]).length === MONTHS.length;
   }, []);
 
   // Helper function to format year usage text
   const getYearUsageText = useCallback((): string => {
-    if (!prefer2026) {
-      return 'Alle måneder bruker 2025-tall';
+    const currentSelectedYear = selectedYear;
+    const selectedYearMonths = getSelectedYearMonths(selectedZone, currentSelectedYear);
+    const fallbackMonths = getFallbackYearMonths(selectedZone, currentSelectedYear);
+    
+    if (selectedYearMonths.length === 0) {
+      // Ingen data for valgt år, bruk forrige år
+      const previousYears = AVAILABLE_YEARS.filter(y => y < currentSelectedYear).sort((a, b) => b - a);
+      if (previousYears.length > 0) {
+        return `Alle måneder bruker ${previousYears[0]}-tall (ingen ${currentSelectedYear}-data tilgjengelig)`;
+      }
+      return `Ingen data tilgjengelig for ${currentSelectedYear}`;
     }
     
-    const months2026 = get2026Months(selectedZone);
-    if (months2026.length === 0) {
-      return 'Alle måneder bruker 2025-tall (ingen 2026-data tilgjengelig)';
+    if (selectedYearMonths.length === MONTHS.length) {
+      // Alle måneder har data for valgt år
+      if (isCurrentYear(currentSelectedYear) && !isYearDataComplete(selectedZone, currentSelectedYear)) {
+        // Dette bør ikke skje, men håndter det
+        return `Alle måneder bruker ${currentSelectedYear}-tall`;
+      }
+      return `Alle måneder bruker ${currentSelectedYear}-tall`;
     }
     
-    // Convert month abbreviations to full names
-    const monthNames2026 = months2026.map(month => MONTH_NAMES[month] || month);
+    // Noen måneder mangler - vis hvilke som bruker valgt år og hvilke som bruker fallback
+    const monthNamesSelected = selectedYearMonths.map(month => MONTH_NAMES[month] || month);
+    const monthNamesFallback = fallbackMonths.map(month => MONTH_NAMES[month] || month);
     
-    if (months2026.length === 1) {
-      return `For ${monthNames2026[0]} brukes 2026-tall, resten bruker 2025-tall`;
+    if (fallbackMonths.length > 0) {
+      const previousYears = AVAILABLE_YEARS.filter(y => y < currentSelectedYear).sort((a, b) => b - a);
+      const fallbackYear = previousYears[0];
+      
+      if (selectedYearMonths.length === 1) {
+        return `For ${monthNamesSelected[0]} brukes ${currentSelectedYear}-tall, resten bruker ${fallbackYear}-tall`;
+      }
+      
+      const selectedText = monthNamesSelected.join(', ');
+      const fallbackText = monthNamesFallback.join(', ');
+      return `For ${selectedText} brukes ${currentSelectedYear}-tall, for ${fallbackText} brukes ${fallbackYear}-tall`;
     }
     
-    if (months2026.length === MONTHS.length) {
-      return 'Alle måneder bruker 2026-tall';
+    // Fallback måneder ikke funnet, men noen måneder mangler
+    if (selectedYearMonths.length === 1) {
+      return `For ${monthNamesSelected[0]} brukes ${currentSelectedYear}-tall, resten mangler data`;
     }
     
-    // Multiple months - format nicely
-    const monthNamesText = monthNames2026.join(', ');
-    return `For ${monthNamesText} brukes 2026-tall, resten bruker 2025-tall`;
-  }, [prefer2026, selectedZone, get2026Months]);
+    const selectedText = monthNamesSelected.join(', ');
+    return `For ${selectedText} brukes ${currentSelectedYear}-tall, resten mangler data`;
+  }, [selectedYear, selectedZone, getSelectedYearMonths, getFallbackYearMonths, isCurrentYear, isYearDataComplete]);
+
+  // Helper function to format LATEST_TIMESTAMP for display
+  const formatLatestTimestamp = useCallback((): string => {
+    try {
+      const date = new Date(LATEST_TIMESTAMP);
+      const day = date.getDate();
+      const month = MONTH_NAMES[MONTHS[date.getMonth()]] || date.toLocaleDateString('nb-NO', { month: 'long' });
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${day}. ${month} ${year} kl. ${hours}:${minutes}`;
+    } catch {
+      return LATEST_TIMESTAMP;
+    }
+  }, []);
 
   // --- KALKULERINGER ---
   const results: CalculationSummary = useMemo(() => {
@@ -591,25 +705,29 @@ const App: React.FC = () => {
               
               <div className="space-y-6">
                 <div className="border border-slate-200 rounded-lg p-4">
-                  <label className="flex items-center justify-between cursor-pointer">
-                    <div className="flex-1">
-                      <div className="font-semibold text-slate-800 mb-1">Bruk 2026-data hvor tilgjengelig</div>
-                      <div className="text-sm text-slate-500">
-                        Når aktivert, brukes 2026-data for måneder hvor det finnes, ellers falles det tilbake til 2025-data.
-                        {prefer2026 && (
-                          <span className="block mt-1 text-blue-600">
-                            Aktuelt: {getYearUsageText()}.
-                          </span>
-                        )}
-                      </div>
+                  <label className="flex flex-col gap-2">
+                    <div className="font-semibold text-slate-800">Velg prisår</div>
+                    <div className="text-sm text-slate-500 mb-2">
+                      Velg hvilket år sine priser som skal brukes. For inneværende år vil måneder uten data automatisk bruke forrige års tall.
                     </div>
-                    <div className="ml-4">
-                      <input
-                        type="checkbox"
-                        checked={prefer2026}
-                        onChange={(e) => setPrefer2026(e.target.checked)}
-                        className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
-                      />
+                    <select
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(Number(e.target.value))}
+                      className="bg-slate-50 border border-slate-300 text-slate-800 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                    >
+                      {AVAILABLE_YEARS.map((year) => (
+                        <option key={year} value={year}>{year}</option>
+                      ))}
+                    </select>
+                    <div className="text-sm text-slate-500 mt-2">                     
+                      <span className="block mt-1 text-slate-400 text-xs">
+                        Data hentet frem til {formatLatestTimestamp()}.
+                      </span>
+                      {isCurrentYear(selectedYear) && !isYearDataComplete(selectedZone, selectedYear) && (
+                        <span className="block mt-1 text-amber-600 text-xs font-medium">
+                          ⚠️ {selectedYear}-tallene er ikke komplette. Måneder uten data bruker {AVAILABLE_YEARS.filter(y => y < selectedYear).sort((a, b) => b - a)[0]}-tall.
+                        </span>
+                      )}
                     </div>
                   </label>
                 </div>
@@ -630,9 +748,15 @@ const App: React.FC = () => {
         {/* Fotnote */}
         <div className="text-center text-slate-400 text-sm pb-8 space-y-2">
           <p>NB: Utregningene inkluderer ikke nettleie eller faste avgifter, kun energileddet.</p>
-          <p>Snitt spotpris inkluderer MVA (unntatt NO4). Strømstøtte er beregnet time for time basert på faktiske priser {prefer2026 ? 'i 2026 hvor tilgjengelig, ellers 2025' : 'i 2025'}.</p>
+          <p>Snitt spotpris inkluderer MVA (unntatt NO4). Gjennomsnittlig strømstøtte er beregnet time for time basert på faktiske priser.</p>
+          {isCurrentYear(selectedYear) && !isYearDataComplete(selectedZone, selectedYear) && (
+            <p className="text-amber-600 font-medium">
+              ⚠️ Merk: {selectedYear}-tallene er ikke komplette (det er {new Date().toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' })}). 
+              Måneder uten {selectedYear}-data bruker {AVAILABLE_YEARS.filter(y => y < selectedYear).sort((a, b) => b - a)[0]}-tall.
+            </p>
+          )}
           <p>Strømpriser levert av <a href="https://www.hvakosterstrommen.no" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Hva koster strømmen.no</a></p>
-          <p className="pt-4">© 2026 toolses</p>
+          <p className="pt-4">© {new Date().getFullYear()} toolses</p>
         </div>
 
       </div>
