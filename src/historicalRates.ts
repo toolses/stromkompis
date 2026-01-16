@@ -515,32 +515,32 @@ export const HISTORICAL_RATES_2025: Record<string, Record<string, MonthlyRate>> 
 export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> = {
   "NO1": {
     "Jan": {
-      "spotAvg": 150.06,
-      "subsidyAvg": 49.56
+      "spotAvg": 148.79,
+      "subsidyAvg": 48.35
     }
   },
   "NO2": {
     "Jan": {
-      "spotAvg": 144.51,
-      "subsidyAvg": 44.6
+      "spotAvg": 143.42,
+      "subsidyAvg": 43.54
     }
   },
   "NO3": {
     "Jan": {
-      "spotAvg": 133.48,
-      "subsidyAvg": 36.87
+      "spotAvg": 132.71,
+      "subsidyAvg": 35.96
     }
   },
   "NO4": {
     "Jan": {
-      "spotAvg": 62.68,
-      "subsidyAvg": 13.64
+      "spotAvg": 61.15,
+      "subsidyAvg": 12.79
     }
   },
   "NO5": {
     "Jan": {
-      "spotAvg": 147.14,
-      "subsidyAvg": 45.8
+      "spotAvg": 146.19,
+      "subsidyAvg": 44.94
     }
   }
 };
@@ -1055,35 +1055,35 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
   "2026": {
     "NO1": {
       "Jan": {
-        "spotAvg": 150.06,
-        "subsidyAvg": 49.56
+        "spotAvg": 148.79,
+        "subsidyAvg": 48.35
       }
     },
     "NO2": {
       "Jan": {
-        "spotAvg": 144.51,
-        "subsidyAvg": 44.6
+        "spotAvg": 143.42,
+        "subsidyAvg": 43.54
       }
     },
     "NO3": {
       "Jan": {
-        "spotAvg": 133.48,
-        "subsidyAvg": 36.87
+        "spotAvg": 132.71,
+        "subsidyAvg": 35.96
       }
     },
     "NO4": {
       "Jan": {
-        "spotAvg": 62.68,
-        "subsidyAvg": 13.64
+        "spotAvg": 61.15,
+        "subsidyAvg": 12.79
       }
     },
     "NO5": {
       "Jan": {
-        "spotAvg": 147.14,
-        "subsidyAvg": 45.8
+        "spotAvg": 146.19,
+        "subsidyAvg": 44.94
       }
     }
   }
 };
 
-export const LATEST_TIMESTAMP = "2026-01-16T00:00:00+01:00";
+export const LATEST_TIMESTAMP = "2026-01-17T00:00:00+01:00";
