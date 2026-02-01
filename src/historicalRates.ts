@@ -517,30 +517,50 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 159.15,
       "subsidyAvg": 57.16
+    },
+    "Feb": {
+      "spotAvg": 151.13,
+      "subsidyAvg": 49.39
     }
   },
   "NO2": {
     "Jan": {
       "spotAvg": 153.91,
       "subsidyAvg": 52.45
+    },
+    "Feb": {
+      "spotAvg": 148.34,
+      "subsidyAvg": 46.88
     }
   },
   "NO3": {
     "Jan": {
       "spotAvg": 149.28,
       "subsidyAvg": 49.39
+    },
+    "Feb": {
+      "spotAvg": 153.68,
+      "subsidyAvg": 51.69
     }
   },
   "NO4": {
     "Jan": {
       "spotAvg": 83.18,
       "subsidyAvg": 23.17
+    },
+    "Feb": {
+      "spotAvg": 49.91,
+      "subsidyAvg": 0.0
     }
   },
   "NO5": {
     "Jan": {
       "spotAvg": 156.45,
       "subsidyAvg": 54.18
+    },
+    "Feb": {
+      "spotAvg": 156.11,
+      "subsidyAvg": 53.87
     }
   }
 };
@@ -1057,33 +1077,53 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 159.15,
         "subsidyAvg": 57.16
+      },
+      "Feb": {
+        "spotAvg": 151.13,
+        "subsidyAvg": 49.39
       }
     },
     "NO2": {
       "Jan": {
         "spotAvg": 153.91,
         "subsidyAvg": 52.45
+      },
+      "Feb": {
+        "spotAvg": 148.34,
+        "subsidyAvg": 46.88
       }
     },
     "NO3": {
       "Jan": {
         "spotAvg": 149.28,
         "subsidyAvg": 49.39
+      },
+      "Feb": {
+        "spotAvg": 153.68,
+        "subsidyAvg": 51.69
       }
     },
     "NO4": {
       "Jan": {
         "spotAvg": 83.18,
         "subsidyAvg": 23.17
+      },
+      "Feb": {
+        "spotAvg": 49.91,
+        "subsidyAvg": 0.0
       }
     },
     "NO5": {
       "Jan": {
         "spotAvg": 156.45,
         "subsidyAvg": 54.18
+      },
+      "Feb": {
+        "spotAvg": 156.11,
+        "subsidyAvg": 53.87
       }
     }
   }
 };
 
-export const LATEST_TIMESTAMP = "2026-02-01T00:00:00+01:00";
+export const LATEST_TIMESTAMP = "2026-02-02T00:00:00+01:00";
