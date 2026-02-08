@@ -519,8 +519,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 57.16
     },
     "Feb": {
-      "spotAvg": 157.04,
-      "subsidyAvg": 54.71
+      "spotAvg": 156.34,
+      "subsidyAvg": 54.09
     }
   },
   "NO2": {
@@ -529,8 +529,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 52.45
     },
     "Feb": {
-      "spotAvg": 152.26,
-      "subsidyAvg": 50.41
+      "spotAvg": 151.96,
+      "subsidyAvg": 50.14
     }
   },
   "NO3": {
@@ -539,8 +539,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 49.39
     },
     "Feb": {
-      "spotAvg": 157.18,
-      "subsidyAvg": 54.84
+      "spotAvg": 156.39,
+      "subsidyAvg": 54.12
     }
   },
   "NO4": {
@@ -549,8 +549,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 23.17
     },
     "Feb": {
-      "spotAvg": 100.46,
-      "subsidyAvg": 25.78
+      "spotAvg": 101.74,
+      "subsidyAvg": 26.38
     }
   },
   "NO5": {
@@ -559,8 +559,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 54.18
     },
     "Feb": {
-      "spotAvg": 157.92,
-      "subsidyAvg": 55.5
+      "spotAvg": 157.14,
+      "subsidyAvg": 54.8
     }
   }
 };
@@ -1079,8 +1079,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 57.16
       },
       "Feb": {
-        "spotAvg": 157.04,
-        "subsidyAvg": 54.71
+        "spotAvg": 156.34,
+        "subsidyAvg": 54.09
       }
     },
     "NO2": {
@@ -1089,8 +1089,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 52.45
       },
       "Feb": {
-        "spotAvg": 152.26,
-        "subsidyAvg": 50.41
+        "spotAvg": 151.96,
+        "subsidyAvg": 50.14
       }
     },
     "NO3": {
@@ -1099,8 +1099,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 49.39
       },
       "Feb": {
-        "spotAvg": 157.18,
-        "subsidyAvg": 54.84
+        "spotAvg": 156.39,
+        "subsidyAvg": 54.12
       }
     },
     "NO4": {
@@ -1109,8 +1109,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 23.17
       },
       "Feb": {
-        "spotAvg": 100.46,
-        "subsidyAvg": 25.78
+        "spotAvg": 101.74,
+        "subsidyAvg": 26.38
       }
     },
     "NO5": {
@@ -1119,11 +1119,11 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 54.18
       },
       "Feb": {
-        "spotAvg": 157.92,
-        "subsidyAvg": 55.5
+        "spotAvg": 157.14,
+        "subsidyAvg": 54.8
       }
     }
   }
 };
 
-export const LATEST_TIMESTAMP = "2026-02-08T00:00:00+01:00";
+export const LATEST_TIMESTAMP = "2026-02-09T00:00:00+01:00";
