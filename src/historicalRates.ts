@@ -6,31 +6,272 @@ export interface MonthlyRate {
   subsidyAvg: number;
 }
 
+export const HISTORICAL_RATES_2025: Record<string, Record<string, MonthlyRate>> = {
+  "NO1": {
+    "Apr": {
+      "spotAvg": 75.26,
+      "subsidyAvg": 5.63
+    },
+    "Mai": {
+      "spotAvg": 88.98,
+      "subsidyAvg": 9.63
+    },
+    "Des": {
+      "spotAvg": 101.86,
+      "subsidyAvg": 9.41
+    },
+    "Feb": {
+      "spotAvg": 121.14,
+      "subsidyAvg": 32.09
+    },
+    "Okt": {
+      "spotAvg": 73.43,
+      "subsidyAvg": 1.6
+    },
+    "Jul": {
+      "spotAvg": 62.05,
+      "subsidyAvg": 0.48
+    },
+    "Aug": {
+      "spotAvg": 90.82,
+      "subsidyAvg": 17.15
+    },
+    "Jan": {
+      "spotAvg": 93.91,
+      "subsidyAvg": 23.1
+    },
+    "Sep": {
+      "spotAvg": 74.69,
+      "subsidyAvg": 3.68
+    },
+    "Jun": {
+      "spotAvg": 66.78,
+      "subsidyAvg": 1.45
+    },
+    "Mar": {
+      "spotAvg": 65.22,
+      "subsidyAvg": 2.67
+    },
+    "Nov": {
+      "spotAvg": 115.43,
+      "subsidyAvg": 23.38
+    }
+  },
+  "NO2": {
+    "Apr": {
+      "spotAvg": 81.85,
+      "subsidyAvg": 6.76
+    },
+    "Mai": {
+      "spotAvg": 93.53,
+      "subsidyAvg": 11.78
+    },
+    "Des": {
+      "spotAvg": 103.31,
+      "subsidyAvg": 10.69
+    },
+    "Feb": {
+      "spotAvg": 125.41,
+      "subsidyAvg": 35.2
+    },
+    "Okt": {
+      "spotAvg": 86.84,
+      "subsidyAvg": 6.35
+    },
+    "Jul": {
+      "spotAvg": 103.22,
+      "subsidyAvg": 11.78
+    },
+    "Aug": {
+      "spotAvg": 105.38,
+      "subsidyAvg": 22.1
+    },
+    "Jan": {
+      "spotAvg": 97.23,
+      "subsidyAvg": 25.5
+    },
+    "Sep": {
+      "spotAvg": 87.73,
+      "subsidyAvg": 7.59
+    },
+    "Jun": {
+      "spotAvg": 79.91,
+      "subsidyAvg": 4.28
+    },
+    "Mar": {
+      "spotAvg": 71.19,
+      "subsidyAvg": 5.3
+    },
+    "Nov": {
+      "spotAvg": 117.47,
+      "subsidyAvg": 23.4
+    }
+  },
+  "NO3": {
+    "Apr": {
+      "spotAvg": 20.67,
+      "subsidyAvg": 0.07
+    },
+    "Mai": {
+      "spotAvg": 15.75,
+      "subsidyAvg": 0.76
+    },
+    "Des": {
+      "spotAvg": 73.33,
+      "subsidyAvg": 4.53
+    },
+    "Feb": {
+      "spotAvg": 42.76,
+      "subsidyAvg": 4.81
+    },
+    "Okt": {
+      "spotAvg": 35.72,
+      "subsidyAvg": 0.3
+    },
+    "Jul": {
+      "spotAvg": 8.85,
+      "subsidyAvg": 0.0
+    },
+    "Aug": {
+      "spotAvg": 9.6,
+      "subsidyAvg": 0.0
+    },
+    "Jan": {
+      "spotAvg": 34.95,
+      "subsidyAvg": 5.73
+    },
+    "Sep": {
+      "spotAvg": 22.19,
+      "subsidyAvg": 0.22
+    },
+    "Jun": {
+      "spotAvg": 15.98,
+      "subsidyAvg": 0.01
+    },
+    "Mar": {
+      "spotAvg": 24.73,
+      "subsidyAvg": 0.64
+    },
+    "Nov": {
+      "spotAvg": 67.83,
+      "subsidyAvg": 8.58
+    }
+  },
+  "NO4": {
+    "Apr": {
+      "spotAvg": 2.29,
+      "subsidyAvg": 0.0
+    },
+    "Mai": {
+      "spotAvg": 8.01,
+      "subsidyAvg": 0.49
+    },
+    "Des": {
+      "spotAvg": 31.74,
+      "subsidyAvg": 3.17
+    },
+    "Feb": {
+      "spotAvg": 8.16,
+      "subsidyAvg": 0.03
+    },
+    "Okt": {
+      "spotAvg": 5.28,
+      "subsidyAvg": 0.0
+    },
+    "Jul": {
+      "spotAvg": 3.03,
+      "subsidyAvg": 0.0
+    },
+    "Aug": {
+      "spotAvg": 2.52,
+      "subsidyAvg": 0.0
+    },
+    "Jan": {
+      "spotAvg": 10.91,
+      "subsidyAvg": 1.87
+    },
+    "Sep": {
+      "spotAvg": 4.96,
+      "subsidyAvg": 0.0
+    },
+    "Jun": {
+      "spotAvg": 4.22,
+      "subsidyAvg": 0.0
+    },
+    "Mar": {
+      "spotAvg": 5.95,
+      "subsidyAvg": 0.03
+    },
+    "Nov": {
+      "spotAvg": 35.72,
+      "subsidyAvg": 7.38
+    }
+  },
+  "NO5": {
+    "Apr": {
+      "spotAvg": 55.87,
+      "subsidyAvg": 0.74
+    },
+    "Mai": {
+      "spotAvg": 63.16,
+      "subsidyAvg": 1.86
+    },
+    "Des": {
+      "spotAvg": 97.77,
+      "subsidyAvg": 5.57
+    },
+    "Feb": {
+      "spotAvg": 105.8,
+      "subsidyAvg": 21.74
+    },
+    "Okt": {
+      "spotAvg": 69.96,
+      "subsidyAvg": 0.25
+    },
+    "Jul": {
+      "spotAvg": 22.39,
+      "subsidyAvg": 0.0
+    },
+    "Aug": {
+      "spotAvg": 45.88,
+      "subsidyAvg": 2.88
+    },
+    "Jan": {
+      "spotAvg": 78.08,
+      "subsidyAvg": 13.87
+    },
+    "Sep": {
+      "spotAvg": 68.87,
+      "subsidyAvg": 1.55
+    },
+    "Jun": {
+      "spotAvg": 52.27,
+      "subsidyAvg": 0.0
+    },
+    "Mar": {
+      "spotAvg": 57.75,
+      "subsidyAvg": 0.87
+    },
+    "Nov": {
+      "spotAvg": 110.51,
+      "subsidyAvg": 20.66
+    }
+  }
+};
+
 export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> = {
   "NO1": {
     "Apr": {
       "spotAvg": 75.15,
       "subsidyAvg": 3.58
     },
-    "Aug": {
-      "spotAvg": 16.07,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 70.09,
-      "subsidyAvg": 8.8
-    },
     "Mai": {
       "spotAvg": 46.71,
       "subsidyAvg": 1.05
     },
-    "Mar": {
-      "spotAvg": 84.49,
-      "subsidyAvg": 3.37
-    },
-    "Sep": {
-      "spotAvg": 26.44,
-      "subsidyAvg": 0.24
+    "Des": {
+      "spotAvg": 79.38,
+      "subsidyAvg": 19.27
     },
     "Feb": {
       "spotAvg": 83.72,
@@ -40,21 +281,33 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 49.82,
       "subsidyAvg": 1.65
     },
-    "Jun": {
-      "spotAvg": 47.89,
-      "subsidyAvg": 0.85
-    },
     "Jul": {
       "spotAvg": 35.75,
       "subsidyAvg": 0.0
     },
-    "Des": {
-      "spotAvg": 79.38,
-      "subsidyAvg": 19.27
+    "Aug": {
+      "spotAvg": 16.07,
+      "subsidyAvg": 0.0
     },
     "Jan": {
       "spotAvg": 114.78,
       "subsidyAvg": 23.79
+    },
+    "Sep": {
+      "spotAvg": 26.44,
+      "subsidyAvg": 0.24
+    },
+    "Jun": {
+      "spotAvg": 47.89,
+      "subsidyAvg": 0.85
+    },
+    "Mar": {
+      "spotAvg": 84.49,
+      "subsidyAvg": 3.37
+    },
+    "Nov": {
+      "spotAvg": 70.09,
+      "subsidyAvg": 8.8
     }
   },
   "NO2": {
@@ -62,25 +315,13 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 74.66,
       "subsidyAvg": 3.58
     },
-    "Aug": {
-      "spotAvg": 59.69,
-      "subsidyAvg": 0.47
-    },
-    "Nov": {
-      "spotAvg": 81.13,
-      "subsidyAvg": 11.46
-    },
     "Mai": {
       "spotAvg": 60.34,
       "subsidyAvg": 1.85
     },
-    "Mar": {
-      "spotAvg": 84.49,
-      "subsidyAvg": 3.37
-    },
-    "Sep": {
-      "spotAvg": 56.26,
-      "subsidyAvg": 0.4
+    "Des": {
+      "spotAvg": 93.13,
+      "subsidyAvg": 29.64
     },
     "Feb": {
       "spotAvg": 83.12,
@@ -90,21 +331,33 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 61.38,
       "subsidyAvg": 1.65
     },
-    "Jun": {
-      "spotAvg": 59.84,
-      "subsidyAvg": 3.01
-    },
     "Jul": {
       "spotAvg": 50.76,
       "subsidyAvg": 0.58
     },
-    "Des": {
-      "spotAvg": 93.13,
-      "subsidyAvg": 29.64
+    "Aug": {
+      "spotAvg": 59.69,
+      "subsidyAvg": 0.47
     },
     "Jan": {
       "spotAvg": 107.73,
       "subsidyAvg": 17.44
+    },
+    "Sep": {
+      "spotAvg": 56.26,
+      "subsidyAvg": 0.4
+    },
+    "Jun": {
+      "spotAvg": 59.84,
+      "subsidyAvg": 3.01
+    },
+    "Mar": {
+      "spotAvg": 84.49,
+      "subsidyAvg": 3.37
+    },
+    "Nov": {
+      "spotAvg": 81.13,
+      "subsidyAvg": 11.46
     }
   },
   "NO3": {
@@ -112,25 +365,13 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 72.62,
       "subsidyAvg": 3.61
     },
-    "Aug": {
-      "spotAvg": 15.9,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 19.87,
-      "subsidyAvg": 0.16
-    },
     "Mai": {
       "spotAvg": 27.37,
       "subsidyAvg": 0.0
     },
-    "Mar": {
-      "spotAvg": 76.38,
-      "subsidyAvg": 2.11
-    },
-    "Sep": {
-      "spotAvg": 18.73,
-      "subsidyAvg": 0.0
+    "Des": {
+      "spotAvg": 28.36,
+      "subsidyAvg": 2.51
     },
     "Feb": {
       "spotAvg": 62.69,
@@ -140,21 +381,33 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 19.52,
       "subsidyAvg": 0.17
     },
-    "Jun": {
-      "spotAvg": 33.06,
-      "subsidyAvg": 0.15
-    },
     "Jul": {
       "spotAvg": 33.91,
       "subsidyAvg": 0.0
     },
-    "Des": {
-      "spotAvg": 28.36,
-      "subsidyAvg": 2.51
+    "Aug": {
+      "spotAvg": 15.9,
+      "subsidyAvg": 0.0
     },
     "Jan": {
       "spotAvg": 80.51,
       "subsidyAvg": 10.65
+    },
+    "Sep": {
+      "spotAvg": 18.73,
+      "subsidyAvg": 0.0
+    },
+    "Jun": {
+      "spotAvg": 33.06,
+      "subsidyAvg": 0.15
+    },
+    "Mar": {
+      "spotAvg": 76.38,
+      "subsidyAvg": 2.11
+    },
+    "Nov": {
+      "spotAvg": 19.87,
+      "subsidyAvg": 0.16
     }
   },
   "NO4": {
@@ -162,24 +415,12 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 49.26,
       "subsidyAvg": 1.96
     },
-    "Aug": {
-      "spotAvg": 12.8,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 9.25,
-      "subsidyAvg": 0.0
-    },
     "Mai": {
       "spotAvg": 21.89,
       "subsidyAvg": 0.0
     },
-    "Mar": {
-      "spotAvg": 55.34,
-      "subsidyAvg": 1.09
-    },
-    "Sep": {
-      "spotAvg": 14.94,
+    "Des": {
+      "spotAvg": 9.06,
       "subsidyAvg": 0.0
     },
     "Feb": {
@@ -190,21 +431,33 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 13.43,
       "subsidyAvg": 0.0
     },
-    "Jun": {
-      "spotAvg": 25.22,
-      "subsidyAvg": 0.0
-    },
     "Jul": {
       "spotAvg": 27.26,
       "subsidyAvg": 0.0
     },
-    "Des": {
-      "spotAvg": 9.06,
+    "Aug": {
+      "spotAvg": 12.8,
       "subsidyAvg": 0.0
     },
     "Jan": {
       "spotAvg": 44.56,
       "subsidyAvg": 0.98
+    },
+    "Sep": {
+      "spotAvg": 14.94,
+      "subsidyAvg": 0.0
+    },
+    "Jun": {
+      "spotAvg": 25.22,
+      "subsidyAvg": 0.0
+    },
+    "Mar": {
+      "spotAvg": 55.34,
+      "subsidyAvg": 1.09
+    },
+    "Nov": {
+      "spotAvg": 9.25,
+      "subsidyAvg": 0.0
     }
   },
   "NO5": {
@@ -212,25 +465,13 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 79.8,
       "subsidyAvg": 3.38
     },
-    "Aug": {
-      "spotAvg": 16.74,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 61.8,
-      "subsidyAvg": 6.41
-    },
     "Mai": {
       "spotAvg": 47.43,
       "subsidyAvg": 1.05
     },
-    "Mar": {
-      "spotAvg": 85.95,
-      "subsidyAvg": 2.67
-    },
-    "Sep": {
-      "spotAvg": 23.27,
-      "subsidyAvg": 0.04
+    "Des": {
+      "spotAvg": 62.07,
+      "subsidyAvg": 8.13
     },
     "Feb": {
       "spotAvg": 84.75,
@@ -240,274 +481,33 @@ export const HISTORICAL_RATES_2024: Record<string, Record<string, MonthlyRate>> 
       "spotAvg": 49.9,
       "subsidyAvg": 1.26
     },
-    "Jun": {
-      "spotAvg": 48.76,
-      "subsidyAvg": 0.5
-    },
     "Jul": {
       "spotAvg": 39.28,
       "subsidyAvg": 0.0
     },
-    "Des": {
-      "spotAvg": 62.07,
-      "subsidyAvg": 8.13
+    "Aug": {
+      "spotAvg": 16.74,
+      "subsidyAvg": 0.0
     },
     "Jan": {
       "spotAvg": 112.88,
       "subsidyAvg": 20.6
-    }
-  }
-};
-
-export const HISTORICAL_RATES_2025: Record<string, Record<string, MonthlyRate>> = {
-  "NO1": {
-    "Apr": {
-      "spotAvg": 75.26,
-      "subsidyAvg": 5.63
     },
-    "Aug": {
-      "spotAvg": 90.82,
-      "subsidyAvg": 17.15
+    "Sep": {
+      "spotAvg": 23.27,
+      "subsidyAvg": 0.04
     },
-    "Nov": {
-      "spotAvg": 115.43,
-      "subsidyAvg": 23.38
-    },
-    "Mai": {
-      "spotAvg": 88.98,
-      "subsidyAvg": 9.63
+    "Jun": {
+      "spotAvg": 48.76,
+      "subsidyAvg": 0.5
     },
     "Mar": {
-      "spotAvg": 65.22,
+      "spotAvg": 85.95,
       "subsidyAvg": 2.67
     },
-    "Sep": {
-      "spotAvg": 74.69,
-      "subsidyAvg": 3.68
-    },
-    "Feb": {
-      "spotAvg": 121.14,
-      "subsidyAvg": 32.09
-    },
-    "Okt": {
-      "spotAvg": 73.43,
-      "subsidyAvg": 1.6
-    },
-    "Jun": {
-      "spotAvg": 66.78,
-      "subsidyAvg": 1.45
-    },
-    "Jul": {
-      "spotAvg": 62.05,
-      "subsidyAvg": 0.48
-    },
-    "Des": {
-      "spotAvg": 101.86,
-      "subsidyAvg": 9.41
-    },
-    "Jan": {
-      "spotAvg": 93.91,
-      "subsidyAvg": 23.1
-    }
-  },
-  "NO2": {
-    "Apr": {
-      "spotAvg": 81.85,
-      "subsidyAvg": 6.76
-    },
-    "Aug": {
-      "spotAvg": 105.38,
-      "subsidyAvg": 22.1
-    },
     "Nov": {
-      "spotAvg": 117.47,
-      "subsidyAvg": 23.4
-    },
-    "Mai": {
-      "spotAvg": 93.53,
-      "subsidyAvg": 11.78
-    },
-    "Mar": {
-      "spotAvg": 71.19,
-      "subsidyAvg": 5.3
-    },
-    "Sep": {
-      "spotAvg": 87.73,
-      "subsidyAvg": 7.59
-    },
-    "Feb": {
-      "spotAvg": 125.41,
-      "subsidyAvg": 35.2
-    },
-    "Okt": {
-      "spotAvg": 86.84,
-      "subsidyAvg": 6.35
-    },
-    "Jun": {
-      "spotAvg": 79.91,
-      "subsidyAvg": 4.28
-    },
-    "Jul": {
-      "spotAvg": 103.22,
-      "subsidyAvg": 11.78
-    },
-    "Des": {
-      "spotAvg": 103.31,
-      "subsidyAvg": 10.69
-    },
-    "Jan": {
-      "spotAvg": 97.23,
-      "subsidyAvg": 25.5
-    }
-  },
-  "NO3": {
-    "Apr": {
-      "spotAvg": 20.67,
-      "subsidyAvg": 0.07
-    },
-    "Aug": {
-      "spotAvg": 9.6,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 67.83,
-      "subsidyAvg": 8.58
-    },
-    "Mai": {
-      "spotAvg": 15.75,
-      "subsidyAvg": 0.76
-    },
-    "Mar": {
-      "spotAvg": 24.73,
-      "subsidyAvg": 0.64
-    },
-    "Sep": {
-      "spotAvg": 22.19,
-      "subsidyAvg": 0.22
-    },
-    "Feb": {
-      "spotAvg": 42.76,
-      "subsidyAvg": 4.81
-    },
-    "Okt": {
-      "spotAvg": 35.72,
-      "subsidyAvg": 0.3
-    },
-    "Jun": {
-      "spotAvg": 15.98,
-      "subsidyAvg": 0.01
-    },
-    "Jul": {
-      "spotAvg": 8.85,
-      "subsidyAvg": 0.0
-    },
-    "Des": {
-      "spotAvg": 73.33,
-      "subsidyAvg": 4.53
-    },
-    "Jan": {
-      "spotAvg": 34.95,
-      "subsidyAvg": 5.73
-    }
-  },
-  "NO4": {
-    "Apr": {
-      "spotAvg": 2.29,
-      "subsidyAvg": 0.0
-    },
-    "Aug": {
-      "spotAvg": 2.52,
-      "subsidyAvg": 0.0
-    },
-    "Nov": {
-      "spotAvg": 35.72,
-      "subsidyAvg": 7.38
-    },
-    "Mai": {
-      "spotAvg": 8.01,
-      "subsidyAvg": 0.49
-    },
-    "Mar": {
-      "spotAvg": 5.95,
-      "subsidyAvg": 0.03
-    },
-    "Sep": {
-      "spotAvg": 4.96,
-      "subsidyAvg": 0.0
-    },
-    "Feb": {
-      "spotAvg": 8.16,
-      "subsidyAvg": 0.03
-    },
-    "Okt": {
-      "spotAvg": 5.28,
-      "subsidyAvg": 0.0
-    },
-    "Jun": {
-      "spotAvg": 4.22,
-      "subsidyAvg": 0.0
-    },
-    "Jul": {
-      "spotAvg": 3.03,
-      "subsidyAvg": 0.0
-    },
-    "Des": {
-      "spotAvg": 31.74,
-      "subsidyAvg": 3.17
-    },
-    "Jan": {
-      "spotAvg": 10.91,
-      "subsidyAvg": 1.87
-    }
-  },
-  "NO5": {
-    "Apr": {
-      "spotAvg": 55.87,
-      "subsidyAvg": 0.74
-    },
-    "Aug": {
-      "spotAvg": 45.88,
-      "subsidyAvg": 2.88
-    },
-    "Nov": {
-      "spotAvg": 110.51,
-      "subsidyAvg": 20.66
-    },
-    "Mai": {
-      "spotAvg": 63.16,
-      "subsidyAvg": 1.86
-    },
-    "Mar": {
-      "spotAvg": 57.75,
-      "subsidyAvg": 0.87
-    },
-    "Sep": {
-      "spotAvg": 68.87,
-      "subsidyAvg": 1.55
-    },
-    "Feb": {
-      "spotAvg": 105.8,
-      "subsidyAvg": 21.74
-    },
-    "Okt": {
-      "spotAvg": 69.96,
-      "subsidyAvg": 0.25
-    },
-    "Jun": {
-      "spotAvg": 52.27,
-      "subsidyAvg": 0.0
-    },
-    "Jul": {
-      "spotAvg": 22.39,
-      "subsidyAvg": 0.0
-    },
-    "Des": {
-      "spotAvg": 97.77,
-      "subsidyAvg": 5.57
-    },
-    "Jan": {
-      "spotAvg": 78.08,
-      "subsidyAvg": 13.87
+      "spotAvg": 61.8,
+      "subsidyAvg": 6.41
     }
   }
 };
@@ -515,12 +515,8 @@ export const HISTORICAL_RATES_2025: Record<string, Record<string, MonthlyRate>> 
 export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> = {
   "NO1": {
     "Apr": {
-      "spotAvg": 147.67,
-      "subsidyAvg": 47.75
-    },
-    "Mar": {
-      "spotAvg": 147.1,
-      "subsidyAvg": 46.33
+      "spotAvg": 146.23,
+      "subsidyAvg": 46.71
     },
     "Feb": {
       "spotAvg": 156.5,
@@ -529,16 +525,16 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 159.15,
       "subsidyAvg": 57.16
+    },
+    "Mar": {
+      "spotAvg": 147.1,
+      "subsidyAvg": 46.33
     }
   },
   "NO2": {
     "Apr": {
-      "spotAvg": 135.71,
-      "subsidyAvg": 40.33
-    },
-    "Mar": {
-      "spotAvg": 145.0,
-      "subsidyAvg": 45.61
+      "spotAvg": 134.81,
+      "subsidyAvg": 39.68
     },
     "Feb": {
       "spotAvg": 142.73,
@@ -547,16 +543,16 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 153.91,
       "subsidyAvg": 52.45
+    },
+    "Mar": {
+      "spotAvg": 145.0,
+      "subsidyAvg": 45.61
     }
   },
   "NO3": {
     "Apr": {
-      "spotAvg": 144.24,
-      "subsidyAvg": 45.79
-    },
-    "Mar": {
-      "spotAvg": 97.65,
-      "subsidyAvg": 7.64
+      "spotAvg": 141.15,
+      "subsidyAvg": 43.82
     },
     "Feb": {
       "spotAvg": 149.66,
@@ -565,16 +561,16 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 149.28,
       "subsidyAvg": 49.39
+    },
+    "Mar": {
+      "spotAvg": 97.65,
+      "subsidyAvg": 7.64
     }
   },
   "NO4": {
     "Apr": {
-      "spotAvg": 13.89,
+      "spotAvg": 13.44,
       "subsidyAvg": 0.0
-    },
-    "Mar": {
-      "spotAvg": 18.65,
-      "subsidyAvg": 0.04
     },
     "Feb": {
       "spotAvg": 97.67,
@@ -583,16 +579,16 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 83.18,
       "subsidyAvg": 23.17
+    },
+    "Mar": {
+      "spotAvg": 18.65,
+      "subsidyAvg": 0.04
     }
   },
   "NO5": {
     "Apr": {
-      "spotAvg": 160.24,
-      "subsidyAvg": 57.66
-    },
-    "Mar": {
-      "spotAvg": 149.56,
-      "subsidyAvg": 47.98
+      "spotAvg": 159.06,
+      "subsidyAvg": 56.6
     },
     "Feb": {
       "spotAvg": 154.43,
@@ -601,6 +597,10 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
     "Jan": {
       "spotAvg": 156.45,
       "subsidyAvg": 54.18
+    },
+    "Mar": {
+      "spotAvg": 149.56,
+      "subsidyAvg": 47.98
     }
   }
 };
@@ -608,31 +608,271 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
 export const AVAILABLE_YEARS = [2024, 2025, 2026];
 
 export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<string, MonthlyRate>>> = {
+  "2025": {
+    "NO1": {
+      "Apr": {
+        "spotAvg": 75.26,
+        "subsidyAvg": 5.63
+      },
+      "Mai": {
+        "spotAvg": 88.98,
+        "subsidyAvg": 9.63
+      },
+      "Des": {
+        "spotAvg": 101.86,
+        "subsidyAvg": 9.41
+      },
+      "Feb": {
+        "spotAvg": 121.14,
+        "subsidyAvg": 32.09
+      },
+      "Okt": {
+        "spotAvg": 73.43,
+        "subsidyAvg": 1.6
+      },
+      "Jul": {
+        "spotAvg": 62.05,
+        "subsidyAvg": 0.48
+      },
+      "Aug": {
+        "spotAvg": 90.82,
+        "subsidyAvg": 17.15
+      },
+      "Jan": {
+        "spotAvg": 93.91,
+        "subsidyAvg": 23.1
+      },
+      "Sep": {
+        "spotAvg": 74.69,
+        "subsidyAvg": 3.68
+      },
+      "Jun": {
+        "spotAvg": 66.78,
+        "subsidyAvg": 1.45
+      },
+      "Mar": {
+        "spotAvg": 65.22,
+        "subsidyAvg": 2.67
+      },
+      "Nov": {
+        "spotAvg": 115.43,
+        "subsidyAvg": 23.38
+      }
+    },
+    "NO2": {
+      "Apr": {
+        "spotAvg": 81.85,
+        "subsidyAvg": 6.76
+      },
+      "Mai": {
+        "spotAvg": 93.53,
+        "subsidyAvg": 11.78
+      },
+      "Des": {
+        "spotAvg": 103.31,
+        "subsidyAvg": 10.69
+      },
+      "Feb": {
+        "spotAvg": 125.41,
+        "subsidyAvg": 35.2
+      },
+      "Okt": {
+        "spotAvg": 86.84,
+        "subsidyAvg": 6.35
+      },
+      "Jul": {
+        "spotAvg": 103.22,
+        "subsidyAvg": 11.78
+      },
+      "Aug": {
+        "spotAvg": 105.38,
+        "subsidyAvg": 22.1
+      },
+      "Jan": {
+        "spotAvg": 97.23,
+        "subsidyAvg": 25.5
+      },
+      "Sep": {
+        "spotAvg": 87.73,
+        "subsidyAvg": 7.59
+      },
+      "Jun": {
+        "spotAvg": 79.91,
+        "subsidyAvg": 4.28
+      },
+      "Mar": {
+        "spotAvg": 71.19,
+        "subsidyAvg": 5.3
+      },
+      "Nov": {
+        "spotAvg": 117.47,
+        "subsidyAvg": 23.4
+      }
+    },
+    "NO3": {
+      "Apr": {
+        "spotAvg": 20.67,
+        "subsidyAvg": 0.07
+      },
+      "Mai": {
+        "spotAvg": 15.75,
+        "subsidyAvg": 0.76
+      },
+      "Des": {
+        "spotAvg": 73.33,
+        "subsidyAvg": 4.53
+      },
+      "Feb": {
+        "spotAvg": 42.76,
+        "subsidyAvg": 4.81
+      },
+      "Okt": {
+        "spotAvg": 35.72,
+        "subsidyAvg": 0.3
+      },
+      "Jul": {
+        "spotAvg": 8.85,
+        "subsidyAvg": 0.0
+      },
+      "Aug": {
+        "spotAvg": 9.6,
+        "subsidyAvg": 0.0
+      },
+      "Jan": {
+        "spotAvg": 34.95,
+        "subsidyAvg": 5.73
+      },
+      "Sep": {
+        "spotAvg": 22.19,
+        "subsidyAvg": 0.22
+      },
+      "Jun": {
+        "spotAvg": 15.98,
+        "subsidyAvg": 0.01
+      },
+      "Mar": {
+        "spotAvg": 24.73,
+        "subsidyAvg": 0.64
+      },
+      "Nov": {
+        "spotAvg": 67.83,
+        "subsidyAvg": 8.58
+      }
+    },
+    "NO4": {
+      "Apr": {
+        "spotAvg": 2.29,
+        "subsidyAvg": 0.0
+      },
+      "Mai": {
+        "spotAvg": 8.01,
+        "subsidyAvg": 0.49
+      },
+      "Des": {
+        "spotAvg": 31.74,
+        "subsidyAvg": 3.17
+      },
+      "Feb": {
+        "spotAvg": 8.16,
+        "subsidyAvg": 0.03
+      },
+      "Okt": {
+        "spotAvg": 5.28,
+        "subsidyAvg": 0.0
+      },
+      "Jul": {
+        "spotAvg": 3.03,
+        "subsidyAvg": 0.0
+      },
+      "Aug": {
+        "spotAvg": 2.52,
+        "subsidyAvg": 0.0
+      },
+      "Jan": {
+        "spotAvg": 10.91,
+        "subsidyAvg": 1.87
+      },
+      "Sep": {
+        "spotAvg": 4.96,
+        "subsidyAvg": 0.0
+      },
+      "Jun": {
+        "spotAvg": 4.22,
+        "subsidyAvg": 0.0
+      },
+      "Mar": {
+        "spotAvg": 5.95,
+        "subsidyAvg": 0.03
+      },
+      "Nov": {
+        "spotAvg": 35.72,
+        "subsidyAvg": 7.38
+      }
+    },
+    "NO5": {
+      "Apr": {
+        "spotAvg": 55.87,
+        "subsidyAvg": 0.74
+      },
+      "Mai": {
+        "spotAvg": 63.16,
+        "subsidyAvg": 1.86
+      },
+      "Des": {
+        "spotAvg": 97.77,
+        "subsidyAvg": 5.57
+      },
+      "Feb": {
+        "spotAvg": 105.8,
+        "subsidyAvg": 21.74
+      },
+      "Okt": {
+        "spotAvg": 69.96,
+        "subsidyAvg": 0.25
+      },
+      "Jul": {
+        "spotAvg": 22.39,
+        "subsidyAvg": 0.0
+      },
+      "Aug": {
+        "spotAvg": 45.88,
+        "subsidyAvg": 2.88
+      },
+      "Jan": {
+        "spotAvg": 78.08,
+        "subsidyAvg": 13.87
+      },
+      "Sep": {
+        "spotAvg": 68.87,
+        "subsidyAvg": 1.55
+      },
+      "Jun": {
+        "spotAvg": 52.27,
+        "subsidyAvg": 0.0
+      },
+      "Mar": {
+        "spotAvg": 57.75,
+        "subsidyAvg": 0.87
+      },
+      "Nov": {
+        "spotAvg": 110.51,
+        "subsidyAvg": 20.66
+      }
+    }
+  },
   "2024": {
     "NO1": {
       "Apr": {
         "spotAvg": 75.15,
         "subsidyAvg": 3.58
       },
-      "Aug": {
-        "spotAvg": 16.07,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 70.09,
-        "subsidyAvg": 8.8
-      },
       "Mai": {
         "spotAvg": 46.71,
         "subsidyAvg": 1.05
       },
-      "Mar": {
-        "spotAvg": 84.49,
-        "subsidyAvg": 3.37
-      },
-      "Sep": {
-        "spotAvg": 26.44,
-        "subsidyAvg": 0.24
+      "Des": {
+        "spotAvg": 79.38,
+        "subsidyAvg": 19.27
       },
       "Feb": {
         "spotAvg": 83.72,
@@ -642,21 +882,33 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 49.82,
         "subsidyAvg": 1.65
       },
-      "Jun": {
-        "spotAvg": 47.89,
-        "subsidyAvg": 0.85
-      },
       "Jul": {
         "spotAvg": 35.75,
         "subsidyAvg": 0.0
       },
-      "Des": {
-        "spotAvg": 79.38,
-        "subsidyAvg": 19.27
+      "Aug": {
+        "spotAvg": 16.07,
+        "subsidyAvg": 0.0
       },
       "Jan": {
         "spotAvg": 114.78,
         "subsidyAvg": 23.79
+      },
+      "Sep": {
+        "spotAvg": 26.44,
+        "subsidyAvg": 0.24
+      },
+      "Jun": {
+        "spotAvg": 47.89,
+        "subsidyAvg": 0.85
+      },
+      "Mar": {
+        "spotAvg": 84.49,
+        "subsidyAvg": 3.37
+      },
+      "Nov": {
+        "spotAvg": 70.09,
+        "subsidyAvg": 8.8
       }
     },
     "NO2": {
@@ -664,25 +916,13 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 74.66,
         "subsidyAvg": 3.58
       },
-      "Aug": {
-        "spotAvg": 59.69,
-        "subsidyAvg": 0.47
-      },
-      "Nov": {
-        "spotAvg": 81.13,
-        "subsidyAvg": 11.46
-      },
       "Mai": {
         "spotAvg": 60.34,
         "subsidyAvg": 1.85
       },
-      "Mar": {
-        "spotAvg": 84.49,
-        "subsidyAvg": 3.37
-      },
-      "Sep": {
-        "spotAvg": 56.26,
-        "subsidyAvg": 0.4
+      "Des": {
+        "spotAvg": 93.13,
+        "subsidyAvg": 29.64
       },
       "Feb": {
         "spotAvg": 83.12,
@@ -692,21 +932,33 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 61.38,
         "subsidyAvg": 1.65
       },
-      "Jun": {
-        "spotAvg": 59.84,
-        "subsidyAvg": 3.01
-      },
       "Jul": {
         "spotAvg": 50.76,
         "subsidyAvg": 0.58
       },
-      "Des": {
-        "spotAvg": 93.13,
-        "subsidyAvg": 29.64
+      "Aug": {
+        "spotAvg": 59.69,
+        "subsidyAvg": 0.47
       },
       "Jan": {
         "spotAvg": 107.73,
         "subsidyAvg": 17.44
+      },
+      "Sep": {
+        "spotAvg": 56.26,
+        "subsidyAvg": 0.4
+      },
+      "Jun": {
+        "spotAvg": 59.84,
+        "subsidyAvg": 3.01
+      },
+      "Mar": {
+        "spotAvg": 84.49,
+        "subsidyAvg": 3.37
+      },
+      "Nov": {
+        "spotAvg": 81.13,
+        "subsidyAvg": 11.46
       }
     },
     "NO3": {
@@ -714,25 +966,13 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 72.62,
         "subsidyAvg": 3.61
       },
-      "Aug": {
-        "spotAvg": 15.9,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 19.87,
-        "subsidyAvg": 0.16
-      },
       "Mai": {
         "spotAvg": 27.37,
         "subsidyAvg": 0.0
       },
-      "Mar": {
-        "spotAvg": 76.38,
-        "subsidyAvg": 2.11
-      },
-      "Sep": {
-        "spotAvg": 18.73,
-        "subsidyAvg": 0.0
+      "Des": {
+        "spotAvg": 28.36,
+        "subsidyAvg": 2.51
       },
       "Feb": {
         "spotAvg": 62.69,
@@ -742,21 +982,33 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 19.52,
         "subsidyAvg": 0.17
       },
-      "Jun": {
-        "spotAvg": 33.06,
-        "subsidyAvg": 0.15
-      },
       "Jul": {
         "spotAvg": 33.91,
         "subsidyAvg": 0.0
       },
-      "Des": {
-        "spotAvg": 28.36,
-        "subsidyAvg": 2.51
+      "Aug": {
+        "spotAvg": 15.9,
+        "subsidyAvg": 0.0
       },
       "Jan": {
         "spotAvg": 80.51,
         "subsidyAvg": 10.65
+      },
+      "Sep": {
+        "spotAvg": 18.73,
+        "subsidyAvg": 0.0
+      },
+      "Jun": {
+        "spotAvg": 33.06,
+        "subsidyAvg": 0.15
+      },
+      "Mar": {
+        "spotAvg": 76.38,
+        "subsidyAvg": 2.11
+      },
+      "Nov": {
+        "spotAvg": 19.87,
+        "subsidyAvg": 0.16
       }
     },
     "NO4": {
@@ -764,24 +1016,12 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 49.26,
         "subsidyAvg": 1.96
       },
-      "Aug": {
-        "spotAvg": 12.8,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 9.25,
-        "subsidyAvg": 0.0
-      },
       "Mai": {
         "spotAvg": 21.89,
         "subsidyAvg": 0.0
       },
-      "Mar": {
-        "spotAvg": 55.34,
-        "subsidyAvg": 1.09
-      },
-      "Sep": {
-        "spotAvg": 14.94,
+      "Des": {
+        "spotAvg": 9.06,
         "subsidyAvg": 0.0
       },
       "Feb": {
@@ -792,21 +1032,33 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 13.43,
         "subsidyAvg": 0.0
       },
-      "Jun": {
-        "spotAvg": 25.22,
-        "subsidyAvg": 0.0
-      },
       "Jul": {
         "spotAvg": 27.26,
         "subsidyAvg": 0.0
       },
-      "Des": {
-        "spotAvg": 9.06,
+      "Aug": {
+        "spotAvg": 12.8,
         "subsidyAvg": 0.0
       },
       "Jan": {
         "spotAvg": 44.56,
         "subsidyAvg": 0.98
+      },
+      "Sep": {
+        "spotAvg": 14.94,
+        "subsidyAvg": 0.0
+      },
+      "Jun": {
+        "spotAvg": 25.22,
+        "subsidyAvg": 0.0
+      },
+      "Mar": {
+        "spotAvg": 55.34,
+        "subsidyAvg": 1.09
+      },
+      "Nov": {
+        "spotAvg": 9.25,
+        "subsidyAvg": 0.0
       }
     },
     "NO5": {
@@ -814,25 +1066,13 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 79.8,
         "subsidyAvg": 3.38
       },
-      "Aug": {
-        "spotAvg": 16.74,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 61.8,
-        "subsidyAvg": 6.41
-      },
       "Mai": {
         "spotAvg": 47.43,
         "subsidyAvg": 1.05
       },
-      "Mar": {
-        "spotAvg": 85.95,
-        "subsidyAvg": 2.67
-      },
-      "Sep": {
-        "spotAvg": 23.27,
-        "subsidyAvg": 0.04
+      "Des": {
+        "spotAvg": 62.07,
+        "subsidyAvg": 8.13
       },
       "Feb": {
         "spotAvg": 84.75,
@@ -842,285 +1082,41 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "spotAvg": 49.9,
         "subsidyAvg": 1.26
       },
-      "Jun": {
-        "spotAvg": 48.76,
-        "subsidyAvg": 0.5
-      },
       "Jul": {
         "spotAvg": 39.28,
         "subsidyAvg": 0.0
       },
-      "Des": {
-        "spotAvg": 62.07,
-        "subsidyAvg": 8.13
+      "Aug": {
+        "spotAvg": 16.74,
+        "subsidyAvg": 0.0
       },
       "Jan": {
         "spotAvg": 112.88,
         "subsidyAvg": 20.6
-      }
-    }
-  },
-  "2025": {
-    "NO1": {
-      "Apr": {
-        "spotAvg": 75.26,
-        "subsidyAvg": 5.63
       },
-      "Aug": {
-        "spotAvg": 90.82,
-        "subsidyAvg": 17.15
+      "Sep": {
+        "spotAvg": 23.27,
+        "subsidyAvg": 0.04
       },
-      "Nov": {
-        "spotAvg": 115.43,
-        "subsidyAvg": 23.38
-      },
-      "Mai": {
-        "spotAvg": 88.98,
-        "subsidyAvg": 9.63
+      "Jun": {
+        "spotAvg": 48.76,
+        "subsidyAvg": 0.5
       },
       "Mar": {
-        "spotAvg": 65.22,
+        "spotAvg": 85.95,
         "subsidyAvg": 2.67
       },
-      "Sep": {
-        "spotAvg": 74.69,
-        "subsidyAvg": 3.68
-      },
-      "Feb": {
-        "spotAvg": 121.14,
-        "subsidyAvg": 32.09
-      },
-      "Okt": {
-        "spotAvg": 73.43,
-        "subsidyAvg": 1.6
-      },
-      "Jun": {
-        "spotAvg": 66.78,
-        "subsidyAvg": 1.45
-      },
-      "Jul": {
-        "spotAvg": 62.05,
-        "subsidyAvg": 0.48
-      },
-      "Des": {
-        "spotAvg": 101.86,
-        "subsidyAvg": 9.41
-      },
-      "Jan": {
-        "spotAvg": 93.91,
-        "subsidyAvg": 23.1
-      }
-    },
-    "NO2": {
-      "Apr": {
-        "spotAvg": 81.85,
-        "subsidyAvg": 6.76
-      },
-      "Aug": {
-        "spotAvg": 105.38,
-        "subsidyAvg": 22.1
-      },
       "Nov": {
-        "spotAvg": 117.47,
-        "subsidyAvg": 23.4
-      },
-      "Mai": {
-        "spotAvg": 93.53,
-        "subsidyAvg": 11.78
-      },
-      "Mar": {
-        "spotAvg": 71.19,
-        "subsidyAvg": 5.3
-      },
-      "Sep": {
-        "spotAvg": 87.73,
-        "subsidyAvg": 7.59
-      },
-      "Feb": {
-        "spotAvg": 125.41,
-        "subsidyAvg": 35.2
-      },
-      "Okt": {
-        "spotAvg": 86.84,
-        "subsidyAvg": 6.35
-      },
-      "Jun": {
-        "spotAvg": 79.91,
-        "subsidyAvg": 4.28
-      },
-      "Jul": {
-        "spotAvg": 103.22,
-        "subsidyAvg": 11.78
-      },
-      "Des": {
-        "spotAvg": 103.31,
-        "subsidyAvg": 10.69
-      },
-      "Jan": {
-        "spotAvg": 97.23,
-        "subsidyAvg": 25.5
-      }
-    },
-    "NO3": {
-      "Apr": {
-        "spotAvg": 20.67,
-        "subsidyAvg": 0.07
-      },
-      "Aug": {
-        "spotAvg": 9.6,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 67.83,
-        "subsidyAvg": 8.58
-      },
-      "Mai": {
-        "spotAvg": 15.75,
-        "subsidyAvg": 0.76
-      },
-      "Mar": {
-        "spotAvg": 24.73,
-        "subsidyAvg": 0.64
-      },
-      "Sep": {
-        "spotAvg": 22.19,
-        "subsidyAvg": 0.22
-      },
-      "Feb": {
-        "spotAvg": 42.76,
-        "subsidyAvg": 4.81
-      },
-      "Okt": {
-        "spotAvg": 35.72,
-        "subsidyAvg": 0.3
-      },
-      "Jun": {
-        "spotAvg": 15.98,
-        "subsidyAvg": 0.01
-      },
-      "Jul": {
-        "spotAvg": 8.85,
-        "subsidyAvg": 0.0
-      },
-      "Des": {
-        "spotAvg": 73.33,
-        "subsidyAvg": 4.53
-      },
-      "Jan": {
-        "spotAvg": 34.95,
-        "subsidyAvg": 5.73
-      }
-    },
-    "NO4": {
-      "Apr": {
-        "spotAvg": 2.29,
-        "subsidyAvg": 0.0
-      },
-      "Aug": {
-        "spotAvg": 2.52,
-        "subsidyAvg": 0.0
-      },
-      "Nov": {
-        "spotAvg": 35.72,
-        "subsidyAvg": 7.38
-      },
-      "Mai": {
-        "spotAvg": 8.01,
-        "subsidyAvg": 0.49
-      },
-      "Mar": {
-        "spotAvg": 5.95,
-        "subsidyAvg": 0.03
-      },
-      "Sep": {
-        "spotAvg": 4.96,
-        "subsidyAvg": 0.0
-      },
-      "Feb": {
-        "spotAvg": 8.16,
-        "subsidyAvg": 0.03
-      },
-      "Okt": {
-        "spotAvg": 5.28,
-        "subsidyAvg": 0.0
-      },
-      "Jun": {
-        "spotAvg": 4.22,
-        "subsidyAvg": 0.0
-      },
-      "Jul": {
-        "spotAvg": 3.03,
-        "subsidyAvg": 0.0
-      },
-      "Des": {
-        "spotAvg": 31.74,
-        "subsidyAvg": 3.17
-      },
-      "Jan": {
-        "spotAvg": 10.91,
-        "subsidyAvg": 1.87
-      }
-    },
-    "NO5": {
-      "Apr": {
-        "spotAvg": 55.87,
-        "subsidyAvg": 0.74
-      },
-      "Aug": {
-        "spotAvg": 45.88,
-        "subsidyAvg": 2.88
-      },
-      "Nov": {
-        "spotAvg": 110.51,
-        "subsidyAvg": 20.66
-      },
-      "Mai": {
-        "spotAvg": 63.16,
-        "subsidyAvg": 1.86
-      },
-      "Mar": {
-        "spotAvg": 57.75,
-        "subsidyAvg": 0.87
-      },
-      "Sep": {
-        "spotAvg": 68.87,
-        "subsidyAvg": 1.55
-      },
-      "Feb": {
-        "spotAvg": 105.8,
-        "subsidyAvg": 21.74
-      },
-      "Okt": {
-        "spotAvg": 69.96,
-        "subsidyAvg": 0.25
-      },
-      "Jun": {
-        "spotAvg": 52.27,
-        "subsidyAvg": 0.0
-      },
-      "Jul": {
-        "spotAvg": 22.39,
-        "subsidyAvg": 0.0
-      },
-      "Des": {
-        "spotAvg": 97.77,
-        "subsidyAvg": 5.57
-      },
-      "Jan": {
-        "spotAvg": 78.08,
-        "subsidyAvg": 13.87
+        "spotAvg": 61.8,
+        "subsidyAvg": 6.41
       }
     }
   },
   "2026": {
     "NO1": {
       "Apr": {
-        "spotAvg": 147.67,
-        "subsidyAvg": 47.75
-      },
-      "Mar": {
-        "spotAvg": 147.1,
-        "subsidyAvg": 46.33
+        "spotAvg": 146.23,
+        "subsidyAvg": 46.71
       },
       "Feb": {
         "spotAvg": 156.5,
@@ -1129,16 +1125,16 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 159.15,
         "subsidyAvg": 57.16
+      },
+      "Mar": {
+        "spotAvg": 147.1,
+        "subsidyAvg": 46.33
       }
     },
     "NO2": {
       "Apr": {
-        "spotAvg": 135.71,
-        "subsidyAvg": 40.33
-      },
-      "Mar": {
-        "spotAvg": 145.0,
-        "subsidyAvg": 45.61
+        "spotAvg": 134.81,
+        "subsidyAvg": 39.68
       },
       "Feb": {
         "spotAvg": 142.73,
@@ -1147,16 +1143,16 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 153.91,
         "subsidyAvg": 52.45
+      },
+      "Mar": {
+        "spotAvg": 145.0,
+        "subsidyAvg": 45.61
       }
     },
     "NO3": {
       "Apr": {
-        "spotAvg": 144.24,
-        "subsidyAvg": 45.79
-      },
-      "Mar": {
-        "spotAvg": 97.65,
-        "subsidyAvg": 7.64
+        "spotAvg": 141.15,
+        "subsidyAvg": 43.82
       },
       "Feb": {
         "spotAvg": 149.66,
@@ -1165,16 +1161,16 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 149.28,
         "subsidyAvg": 49.39
+      },
+      "Mar": {
+        "spotAvg": 97.65,
+        "subsidyAvg": 7.64
       }
     },
     "NO4": {
       "Apr": {
-        "spotAvg": 13.89,
+        "spotAvg": 13.44,
         "subsidyAvg": 0.0
-      },
-      "Mar": {
-        "spotAvg": 18.65,
-        "subsidyAvg": 0.04
       },
       "Feb": {
         "spotAvg": 97.67,
@@ -1183,16 +1179,16 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 83.18,
         "subsidyAvg": 23.17
+      },
+      "Mar": {
+        "spotAvg": 18.65,
+        "subsidyAvg": 0.04
       }
     },
     "NO5": {
       "Apr": {
-        "spotAvg": 160.24,
-        "subsidyAvg": 57.66
-      },
-      "Mar": {
-        "spotAvg": 149.56,
-        "subsidyAvg": 47.98
+        "spotAvg": 159.06,
+        "subsidyAvg": 56.6
       },
       "Feb": {
         "spotAvg": 154.43,
@@ -1201,9 +1197,13 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
       "Jan": {
         "spotAvg": 156.45,
         "subsidyAvg": 54.18
+      },
+      "Mar": {
+        "spotAvg": 149.56,
+        "subsidyAvg": 47.98
       }
     }
   }
 };
 
-export const LATEST_TIMESTAMP = "2026-04-23T00:00:00+02:00";
+export const LATEST_TIMESTAMP = "2026-04-24T00:00:00+02:00";
