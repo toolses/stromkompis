@@ -33,8 +33,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 54.23
     },
     "Aug": {
-      "spotAvg": 161.01,
-      "subsidyAvg": 63.09
+      "spotAvg": 161.11,
+      "subsidyAvg": 62.97
     },
     "Mar": {
       "spotAvg": 147.1,
@@ -67,8 +67,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 41.84
     },
     "Aug": {
-      "spotAvg": 175.45,
-      "subsidyAvg": 76.25
+      "spotAvg": 175.2,
+      "subsidyAvg": 75.81
     },
     "Mar": {
       "spotAvg": 145.0,
@@ -101,8 +101,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 48.98
     },
     "Aug": {
-      "spotAvg": 110.62,
-      "subsidyAvg": 20.09
+      "spotAvg": 110.15,
+      "subsidyAvg": 19.49
     },
     "Mar": {
       "spotAvg": 97.65,
@@ -135,8 +135,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 29.67
     },
     "Aug": {
-      "spotAvg": 17.15,
-      "subsidyAvg": 2.52
+      "spotAvg": 16.7,
+      "subsidyAvg": 2.41
     },
     "Mar": {
       "spotAvg": 18.65,
@@ -169,8 +169,8 @@ export const HISTORICAL_RATES_2026: Record<string, Record<string, MonthlyRate>> 
       "subsidyAvg": 52.37
     },
     "Aug": {
-      "spotAvg": 148.12,
-      "subsidyAvg": 51.32
+      "spotAvg": 148.72,
+      "subsidyAvg": 51.66
     },
     "Mar": {
       "spotAvg": 149.56,
@@ -715,8 +715,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 54.23
       },
       "Aug": {
-        "spotAvg": 161.01,
-        "subsidyAvg": 63.09
+        "spotAvg": 161.11,
+        "subsidyAvg": 62.97
       },
       "Mar": {
         "spotAvg": 147.1,
@@ -749,8 +749,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 41.84
       },
       "Aug": {
-        "spotAvg": 175.45,
-        "subsidyAvg": 76.25
+        "spotAvg": 175.2,
+        "subsidyAvg": 75.81
       },
       "Mar": {
         "spotAvg": 145.0,
@@ -783,8 +783,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 48.98
       },
       "Aug": {
-        "spotAvg": 110.62,
-        "subsidyAvg": 20.09
+        "spotAvg": 110.15,
+        "subsidyAvg": 19.49
       },
       "Mar": {
         "spotAvg": 97.65,
@@ -817,8 +817,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 29.67
       },
       "Aug": {
-        "spotAvg": 17.15,
-        "subsidyAvg": 2.52
+        "spotAvg": 16.7,
+        "subsidyAvg": 2.41
       },
       "Mar": {
         "spotAvg": 18.65,
@@ -851,8 +851,8 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
         "subsidyAvg": 52.37
       },
       "Aug": {
-        "spotAvg": 148.12,
-        "subsidyAvg": 51.32
+        "spotAvg": 148.72,
+        "subsidyAvg": 51.66
       },
       "Mar": {
         "spotAvg": 149.56,
@@ -1366,4 +1366,4 @@ export const HISTORICAL_RATES_BY_YEAR: Record<number, Record<string, Record<stri
   }
 };
 
-export const LATEST_TIMESTAMP = "2026-08-23T00:00:00+02:00";
+export const LATEST_TIMESTAMP = "2026-08-24T00:00:00+02:00";
